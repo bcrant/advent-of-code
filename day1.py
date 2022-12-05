@@ -3,7 +3,7 @@ from collections import defaultdict
 
 
 def part1():
-    with open('./day1_input.txt', 'r') as f:
+    with open('data/day1_input.txt', 'r') as f:
         items = f.read().splitlines()
 
     dd = defaultdict(list)
