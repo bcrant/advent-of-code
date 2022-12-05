@@ -1,8 +1,3 @@
-import pprint
-from collections import Counter
-from typing import Literal
-
-
 winners = [
     ('C', 'A'),
     ('B', 'C'),
