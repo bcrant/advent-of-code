@@ -1,3 +1,8 @@
+def load_data():
+    with open(f'./data/{__name__}_input.txt', 'r') as f:
+        return f.read().splitlines()
+
+
 def part1():
     return
 
