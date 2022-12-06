@@ -2,7 +2,8 @@
 
 
 def main(stream: str, seq_length: int):
-    start, end = 0, seq_length
+    start = 0
+    end = seq_length
     while True:
         seq = stream[start:end]
         if len(seq) == len(set(seq)):
