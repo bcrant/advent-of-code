@@ -3,7 +3,7 @@
 from copy import deepcopy
 
 
-starting_data = {
+starting_stacks = {
     1: ["r", "n", "f", "v", "l", "j", "s", "m"],
     2: ["p", "n", "d", "z", "f", "j", "w", "h"],
     3: ["w", "r", "c", "d", "g"],
@@ -16,43 +16,27 @@ starting_data = {
 }
 
 
-def part1():
-    """
-    Crates:
-
-    [m] [h]         [n]
-    [s] [w]         [f]     [w] [v]
-    [j] [j]         [b]     [s] [b] [f]
-    [l] [f] [g]     [c]     [l] [n] [n]
-    [v] [z] [d]     [p] [w] [g] [f] [z]
-    [f] [d] [c] [s] [w] [m] [n] [h] [h]
-    [n] [n] [r] [b] [z] [r] [t] [t] [m]
-    [r] [p] [w] [n] [m] [p] [r] [q] [l]
-     1   2   3   4   5   6   7   8   9
-    """
-    data = deepcopy(starting_data)
-    with open("./data/day5_input.txt", "r") as f:
-        items = [line for line in f.read().splitlines() if line.startswith("move")]
-    for item in items:
-        num_crates, source, target = [int(i) for i in item.split(" ") if i.isnumeric()]
-        crates_to_move = [data[source].pop() for _ in range(0, num_crates)]
-        data[target] += crates_to_move
-    return "".join([v[-1].upper() for k, v in data.items()])
+def part1(moves):
+    stacks = deepcopy(starting_stacks)
+    for move in moves:
+        num_crates, source, target = [int(i) for i in move.split(" ") if i.isnumeric()]
+        crates = [stacks[source].pop() for _ in range(0, num_crates)]
+        stacks[target] += crates
+    return "".join([v[-1].upper() for k, v in stacks.items()])
 
 
-def part2():
-    data = deepcopy(starting_data)
-    with open("./data/day5_input.txt", "r") as f:
-        items = [line for line in f.read().splitlines() if line.startswith("move")]
-    for item in items:
-        num_crates, source, target = [int(i) for i in item.split(" ") if i.isnumeric()]
-        crates_to_move = list(
-            reversed([data[source].pop() for _ in range(0, num_crates)])
-        )
-        data[target] += crates_to_move
-    return "".join([v[-1].upper() for k, v in data.items()])
+def part2(moves):
+    stacks = deepcopy(starting_stacks)
+    for move in moves:
+        num_crates, source, target = [int(i) for i in move.split(" ") if i.isnumeric()]
+        crates = list(reversed([stacks[source].pop() for _ in range(0, num_crates)]))
+        stacks[target] += crates
+    return "".join([v[-1].upper() for v in stacks.values()])
 
 
 if __name__ == "__main__":
-    print(f"part1 answer: {part1()}")
-    print(f"part2 answer: {part2()}")
+    with open("./stacks/day5_input.txt", "r") as f:
+        items = [line for line in f.read().splitlines() if line.startswith("move")]
+
+    print(f"part1 answer: {part1(items)}")
+    print(f"part2 answer: {part2(items)}")
