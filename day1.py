@@ -24,14 +24,15 @@ def part1():
     return total_calories
 
 
-def part2(calories_by_elf: dict):
-    max_calories = list(reversed(sorted([i for i in calories_by_elf.values()])))
+def part2():
+    calories_by_elf = part1()
+    top_three = sum(list(reversed(sorted([i for i in calories_by_elf.values()])))[0:3])
     print(
-        f"The three elves carrying the most calories have a total of {sum(max_calories[0:3])} calories"
+        f"The three elves carrying the most calories have a total of {top_three} calories"
     )
-    return sum(max_calories[0:3])
+    return top_three
 
 
 if __name__ == "__main__":
-    calories = part1()
-    part2(calories)
+    print(f"part1 answer: {part1()}")
+    print(f"part2 answer: {part2()}")
