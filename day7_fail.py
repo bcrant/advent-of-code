@@ -1,5 +1,6 @@
 """ https://adventofcode.com/2022/day/7 """
 
+import pprint
 from collections import defaultdict, deque
 
 
@@ -44,26 +45,28 @@ def part1():
             parent_node = child_parent.get(parent_node)
         tree_paths.append(child)
 
-    dir_sizes = {
-        k: {'size': v, 'dirs': []}
-        for k, v in innermost_dirs.items()
-    }
-
-    for dir_name, dir_content in dir_contents.items():
-        sizes = [n[0] for n in dir_content if n[0] != "dir"]
-        dir_names = [n[1] for n in dir_content if n[0] == "dir"]
-        dir_sizes[dir_name] = {
-            'size': sum(map(int, sizes)),
-            'dirs': dir_names
-        }
-
-    remaining = check_remaining(dir_sizes)
-    while remaining:
-        dir_sizes = add_dir_size(dir_sizes)
-        remaining = check_remaining(dir_sizes)
-
-    answer1 = sum([v["size"] for v in dir_sizes.values() if v["size"] <= 100000])
-    return answer1
+    pprint.pprint(tree_paths)
+    #
+    # dir_sizes = {
+    #     k: {'size': v, 'dirs': []}
+    #     for k, v in innermost_dirs.items()
+    # }
+    #
+    # for dir_name, dir_content in dir_contents.items():
+    #     sizes = [n[0] for n in dir_content if n[0] != "dir"]
+    #     dir_names = [n[1] for n in dir_content if n[0] == "dir"]
+    #     dir_sizes[dir_name] = {
+    #         'size': sum(map(int, sizes)),
+    #         'dirs': dir_names
+    #     }
+    #
+    # remaining = check_remaining(dir_sizes)
+    # while remaining:
+    #     dir_sizes = add_dir_size(dir_sizes)
+    #     remaining = check_remaining(dir_sizes)
+    #
+    # answer1 = sum([v["size"] for v in dir_sizes.values() if v["size"] <= 100000])
+    # return answer1
 
 def add_dir_size(dir_sizes_dict: dict):
     for log in dir_sizes_dict.values():
