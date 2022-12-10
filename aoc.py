@@ -1,9 +1,12 @@
 """ https://adventofcode.com/2022/day/N """
 
+import pprint
+
 
 def part1():
     with open("./data/dayN_input.txt", "r") as f:
         items = f.read().splitlines()
+    pprint.pprint(items)
     return
 
 
