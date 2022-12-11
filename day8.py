@@ -35,18 +35,33 @@ def part1():
     }
     pprint.pprint(views)
 
-    visible = defaultdict(tuple)
-    row_pos = 0
-    col_pos = 0
-    for row_idx, row in enumerate(items):
-        for col_idx, col in enumerate(row):
-            print(f"row{row_idx+1} col{col_idx+1}: {row[col_idx]}")
-            curr = row[col_idx]
-            for view, items in views.items():
-                if "ROWS" in view:
-                    is_visible = curr < items[row_idx][col_idx - 1]
-                    print(f"curr {curr} < item {items[row_idx][col_idx - 1]}: ", is_visible)
-                    print(f"Visible from {view.rsplit('_')[-1]}: {is_visible}")
+    # Count the  number of trees that are visible from outside the grid
+    visible = defaultdict(int)
+    for row_idx, row in enumerate(items[1:-1]):
+        print()
+        print(f"ROW     {row_idx}  | {row}")
+        for col_idx, curr in enumerate(row):
+            pos = f"x{row_idx}y{col_idx}"
+            print(f"CURR {pos}  | {' '.join(seq)} < {curr}")
+            # LEFT TO RIGHT
+            seq = row[0:col_idx] or row[0]
+            is_visible = all(n < curr for n in seq)
+            if not visible[pos]:
+                visible[pos] = 1 if is_visible else 0
+    pprint.pprint(visible)
+    inner_trees = sum(visible.values())
+    print(f"Inner trees: {inner_trees}")
+    print(f"Outer trees: {outer_trees}")
+    cnt_visible = inner_trees + outer_trees
+    print(f"Visible: {cnt_visible}")
+            # curr_visible = False
+            # print(f"x{row_idx}y{col_idx} | {curr}")
+            # seq = row[row_idx][0:col_idx]
+            # print(f"curr {curr} seq {seq}")
+
+                    # is_visible = curr < items[row_idx][col_idx - 1]
+                    # print(f"curr {curr} < item {items[row_idx][col_idx - 1]}: ", is_visible)
+                    # print(f"Visible from {view.rsplit('_')[-1]}: {is_visible}")
                     # if curr > items[row_idx][col_idx + 1]:
                     # print(items[row_idx][col_idx])
                     # print(f"Visible from {view.rsplit('_')[-1]}: ")
