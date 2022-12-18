@@ -18,7 +18,7 @@ def part1():
     'Draw'          -> 3 points
     'Win'           -> 6 points plus your_move Rock/Paper/Scissor points
     """
-    with open("./data/day2_input.txt", "r") as f:
+    with open("data/day2_input.txt", "r") as f:
         items = f.read().splitlines()
     data = []
     for item in items:
@@ -42,7 +42,7 @@ def part2():
     Y -> means you need to draw
     Z -> means you need to win
     """
-    with open("./data/day2_input.txt", "r") as f:
+    with open("data/day2_input.txt", "r") as f:
         items = f.read().splitlines()
     data = []
     for item in items:

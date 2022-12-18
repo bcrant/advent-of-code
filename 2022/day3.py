@@ -2,7 +2,7 @@
 
 
 def part1():
-    with open("./data/day3_input.txt", "r") as f:
+    with open("data/day3_input.txt", "r") as f:
         items = f.read().splitlines()
     priority_score = 0
     for item in items:
@@ -17,7 +17,7 @@ def part1():
 
 
 def part2():
-    with open("./data/day3_input.txt", "r") as f:
+    with open("data/day3_input.txt", "r") as f:
         items = f.read().splitlines()
     priority_score = 0
     groups = list(zip(*(iter(items),) * 3))

@@ -6,7 +6,7 @@ import pprint
 def part1():
     # Parse input
     # with open("./data/day7_example.txt", "r") as f:
-    with open("./data/day7_input.txt", "r") as f:
+    with open("data/day7_input.txt", "r") as f:
         lines = [
             line
             for line in f.read().splitlines()

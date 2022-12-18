@@ -4,7 +4,7 @@ from collections import defaultdict
 
 
 def main() -> dict:
-    with open("./data/day7_input.txt", "r") as f:
+    with open("data/day7_input.txt", "r") as f:
         lines = [line for line in f.read().splitlines()]
 
     path_sizes = defaultdict(int)

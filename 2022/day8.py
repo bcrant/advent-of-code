@@ -3,7 +3,7 @@
 
 def part1():
     # with open("./data/day8_example.txt", "r") as f:
-    with open("./data/day8_input.txt", "r") as f:
+    with open("data/day8_input.txt", "r") as f:
         grid = [list(map(int, line)) for line in f.read().splitlines()]
 
     total = 0
@@ -22,7 +22,7 @@ def part1():
 
 def part2():
     # with open("./data/day8_example.txt", "r") as f:
-    with open("./data/day8_input.txt", "r") as f:
+    with open("data/day8_input.txt", "r") as f:
         grid = [list(map(int, line)) for line in f.read().splitlines()]
 
     total = 0

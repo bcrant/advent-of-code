@@ -15,7 +15,7 @@ def main(stream: str, seq_length: int):
 
 
 if __name__ == "__main__":
-    with open("./data/day6_input.txt", "r") as f:
+    with open("data/day6_input.txt", "r") as f:
         data = f.read()
     print(f"part1 answer: {main(data, 4)}")
     print(f"part2 answer: {main(data, 14)}")

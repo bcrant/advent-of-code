@@ -6,7 +6,7 @@ from collections import defaultdict, deque
 
 def part1():
     # Parse input
-    with open("./data/day7_input.txt", "r") as f:
+    with open("data/day7_input.txt", "r") as f:
         items = [
             line
             for line in f.read().splitlines()
@@ -135,7 +135,7 @@ def check_remaining(dir_sizes_dict: dict) -> bool:
 
 
 def part2():
-    with open("./data/day7_input.txt", "r") as f:
+    with open("data/day7_input.txt", "r") as f:
         items = f.read().splitlines()
     return
 

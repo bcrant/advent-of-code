@@ -2,7 +2,7 @@
 
 
 def part1():
-    with open(f"./data/day4_input.txt", "r") as f:
+    with open(f"../data/day4_input.txt", "r") as f:
         items = f.read().splitlines()
     count = 0
     for item in items:
@@ -15,7 +15,7 @@ def part1():
 
 
 def part2():
-    with open(f"./data/day4_input.txt", "r") as f:
+    with open(f"../data/day4_input.txt", "r") as f:
         items = f.read().splitlines()
     count = 0
     for item in items:
