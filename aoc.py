@@ -1,17 +1,18 @@
-""" https://adventofcode.com/2022/day/N """
-
+import os
 import pprint
+
+y, d = os.environ["AOC_YEAR"], os.environ["AOC_DAY"]
 
 
 def part1():
-    with open("2022/data/dayN_input.txt", "r") as f:
+    with open(f"{y}/data/day{d}_input.txt", "r") as f:
         items = f.read().splitlines()
     pprint.pprint(items)
     return
 
 
 def part2():
-    with open("2022/data/dayN_input.txt", "r") as f:
+    with open(f"{y}/data/day{d}_input.txt", "r") as f:
         items = f.read().splitlines()
     return
 
