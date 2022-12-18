@@ -6,7 +6,7 @@ def part1():
         items = [int(line) for line in f.read().splitlines()]
     cnt = 0
     for idx in range(1, len(items)):
-        if items[idx] > items[idx-1]:
+        if items[idx] > items[idx - 1]:
             cnt += 1
     return cnt
 
@@ -17,7 +17,7 @@ def part2():
     cnt = 0
     prev_window = 0
     for idx in range(2, len(items)):
-        window = sum(items[idx-3:idx])
+        window = sum(items[idx - 3 : idx])
         if prev_window < window:
             cnt += 1
         prev_window = window

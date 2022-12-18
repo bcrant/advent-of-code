@@ -1,6 +1,7 @@
 import pprint
 
-y, d = 2021, 0
+
+y, d = 2021, 3
 
 
 def part1():

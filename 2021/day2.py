@@ -17,7 +17,7 @@ def part1():
         elif cmd == "up":
             depth -= val
         else:
-            print('im a little teapot')
+            print("im a little teapot")
     return horizontal * depth
 
 
