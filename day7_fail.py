@@ -22,7 +22,7 @@ def part1():
         if "$ cd " in item:
             curr_dir = item.replace("$ cd ", "")
         else:
-            meta, name = item.split(' ')
+            meta, name = item.split(" ")
             dir_contents[curr_dir].append((meta, name))
             if meta == "dir":
                 child_parent[name] = curr_dir
@@ -37,7 +37,7 @@ def part1():
             innermost_dirs[parent] = size
 
     inner_dirs = [deque([i]) for i in innermost_dirs.keys()]
-    tree_paths = [deque(['/'])]
+    tree_paths = [deque(["/"])]
     for child in inner_dirs:
         parent_node = child_parent.get(child[0])
         while parent_node is not None:
@@ -68,12 +68,13 @@ def part1():
     # answer1 = sum([v["size"] for v in dir_sizes.values() if v["size"] <= 100000])
     # return answer1
 
+
 def add_dir_size(dir_sizes_dict: dict):
     for log in dir_sizes_dict.values():
         if log["dirs"]:
             for d in log["dirs"]:
-                s = dir_sizes_dict.get(d).get('size')
-                log["size"] += dir_sizes_dict.get(d).get('size')
+                s = dir_sizes_dict.get(d).get("size")
+                log["size"] += dir_sizes_dict.get(d).get("size")
                 log["dirs"].remove(d)
     return dir_sizes_dict
 
@@ -81,9 +82,6 @@ def add_dir_size(dir_sizes_dict: dict):
 def check_remaining(dir_sizes_dict: dict) -> bool:
     if any(bool(log["dirs"]) for log in dir_sizes_dict.values()):
         return True
-
-
-
 
     #     if s == 0:
     #         dirs = [n[1] for n in dir_contents.get(d) if n[0] != "dir"]
@@ -104,7 +102,6 @@ def check_remaining(dir_sizes_dict: dict) -> bool:
     #             dir_sizes[parent] += size
     # # pprint.pprint(dir_sizes)
     # print(len(dir_sizes))
-
 
     # tree = defaultdict(list)
     # depth = 0

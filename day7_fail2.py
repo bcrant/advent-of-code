@@ -44,14 +44,9 @@ def part1():
         print()
     pprint.pprint(records)
 
-    answer1 = sum([
-        v["bytes"]
-        for v in records.values()
-        if v["bytes"] <= 100000
-    ])
+    answer1 = sum([v["bytes"] for v in records.values() if v["bytes"] <= 100000])
     return answer1
 
 
 if __name__ == "__main__":
     print(f"part1 answer: {part1()}")
-
