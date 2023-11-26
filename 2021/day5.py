@@ -19,8 +19,8 @@ def part1():
         if x1 == x2 or y1 == y2:
             x1, x2 = min((x1, x2)), max((x1, x2))
             y1, y2 = min((y1, y2)), max((y1, y2))
-            xrange = list(range(x1, x2+1))
-            yrange = list(range(y1, y2+1))
+            xrange = list(range(x1, x2 + 1))
+            yrange = list(range(y1, y2 + 1))
             print(f"xrange {type(xrange)} {xrange}")
             print(f"yrange {type(yrange)} {yrange}")
 
@@ -38,7 +38,7 @@ def part1():
             max_x = x2
         if y2 > max_y:
             max_y = y2
-    plot = [["." for _ in range(min_x, max_x+1)] for _ in range(min_y, max_y+1)]
+    plot = [["." for _ in range(min_x, max_x + 1)] for _ in range(min_y, max_y + 1)]
 
     for line in lines:
         for points in line:
@@ -60,7 +60,7 @@ def part1():
 
 def part2():
     with open(f"{y}/data/day{d}_input.txt", "r") as f:
-    # with open(f"{y}/data/day{d}_example.txt", "r") as f:
+        # with open(f"{y}/data/day{d}_example.txt", "r") as f:
         items = f.read().splitlines()
 
     coordinates = [item.replace(" -> ", ",").split(",") for item in items]
@@ -76,8 +76,8 @@ def part2():
         print(f"({x1}, {y1}) -> ({x2}, {y2})")
         x1, x2 = min((x1, x2)), max((x1, x2))
         y1, y2 = min((y1, y2)), max((y1, y2))
-        xrange = list(range(x1, x2+1))
-        yrange = list(range(y1, y2+1))
+        xrange = list(range(x1, x2 + 1))
+        yrange = list(range(y1, y2 + 1))
         print(f"xrange {type(xrange)} {xrange}")
         print(f"yrange {type(yrange)} {yrange}")
         if len(xrange) == len(yrange):
@@ -87,7 +87,7 @@ def part2():
         elif len(xrange) > len(yrange):
             yrange = [yrange[0] for _idx, _val in enumerate(xrange)]
         else:
-            print('YOOOOOO')
+            print("YOOOOOO")
         line = list(zip(xrange, yrange))
         print(f"line {type(line)} {line}")
         lines.append(line)
@@ -97,7 +97,7 @@ def part2():
         if y2 > max_y:
             max_y = y2
 
-    plot = [["." for _ in range(min_x, max_x+1)] for _ in range(min_y, max_y+1)]
+    plot = [["." for _ in range(min_x, max_x + 1)] for _ in range(min_y, max_y + 1)]
 
     for line in lines:
         for points in line:

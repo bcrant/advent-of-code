@@ -8,20 +8,21 @@ def part1():
         items = [int(i) for i in f.read().splitlines() if int(i) < 2020]
     pprint.pprint(items)
     for item in items:
-        print(f'item {type(item)}: {item}')
+        print(f"item {type(item)}: {item}")
         for _item in items:
-            print(f'_item {type(_item)}: {_item}')
+            print(f"_item {type(_item)}: {_item}")
             if item + _item == 2020:
                 return item * _item
+
 
 def part2():
     with open(f"{y}/data/day{d}_input.txt", "r") as f:
         items = [int(i) for i in f.read().splitlines() if int(i) < 2020]
     pprint.pprint(items)
     for item in items:
-        print(f'item {type(item)}: {item}')
+        print(f"item {type(item)}: {item}")
         for _item in items:
-            print(f'_item {type(_item)}: {_item}')
+            print(f"_item {type(_item)}: {_item}")
             if item + _item >= 2020:
                 continue
             for __item in items:

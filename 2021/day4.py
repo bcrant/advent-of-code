@@ -6,7 +6,7 @@ def part1():
         # with open(f"{y}/data/day{d}_example.txt", "r") as f:
         items = f.read().splitlines()
 
-    picks = [int(i) for i in items[0].split(',')]
+    picks = [int(i) for i in items[0].split(",")]
     print(f"picks {type(picks)} {picks}")
 
     # Remove picks and first separator
@@ -16,10 +16,10 @@ def part1():
     card = []
     for idx, item in enumerate(items):
         row = list(map(int, item.split()))
-        if item == '':
+        if item == "":
             cards.append(card)
             card = []
-        elif idx == len(items)-1:
+        elif idx == len(items) - 1:
             card.append(row)
             cards.append(card)
             card = []
@@ -44,10 +44,7 @@ def part1():
                     bingo = True
         drawn += 1
     flattened_card = [
-        item
-        for sublist in winning_card
-        for item in sublist
-        if item not in winning_nums
+        item for sublist in winning_card for item in sublist if item not in winning_nums
     ]
     return sum(flattened_card) * nums[-1]
 
@@ -57,7 +54,7 @@ def part2():
         # with open(f"{y}/data/day{d}_example.txt", "r") as f:
         items = f.read().splitlines()
 
-    picks = [int(i) for i in items[0].split(',')]
+    picks = [int(i) for i in items[0].split(",")]
     print(f"picks {type(picks)} {picks}")
 
     # Remove picks and first separator
@@ -67,10 +64,10 @@ def part2():
     card = []
     for idx, item in enumerate(items):
         row = list(map(int, item.split()))
-        if item == '':
+        if item == "":
             cards.append(card)
             card = []
-        elif idx == len(items)-1:
+        elif idx == len(items) - 1:
             card.append(row)
             cards.append(card)
             card = []
@@ -97,10 +94,7 @@ def part2():
                         bingo[card_idx] = True
         drawn += 1
     flattened_card = [
-        item
-        for sublist in winning_card
-        for item in sublist
-        if item not in winning_nums
+        item for sublist in winning_card for item in sublist if item not in winning_nums
     ]
     return sum(flattened_card) * nums[-1]
 
