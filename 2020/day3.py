@@ -1,3 +1,4 @@
+import math
 import pprint
 
 
@@ -7,20 +8,14 @@ year, day = 2020, 3
 def part1():
     with open(f"{year}/data/day{day}_input.txt", "r") as f:
         items = f.read().splitlines()
-    pprint.pprint(items[0:5])
-    print("len items", len(items))
-    # right 3 down 1
-    max_y = len(items)
-    max_x = max_y * len(items[0])
-    x = [i for i in range(3, max_x, 3)]
-    points = [(x[i], i + 1) for i in range(max_y)][0 : len(items) - 1]
-    # print(f'points {type(points)}: {points}')
-    pprint.pprint(points[0:5])
 
     # Make wider
+    max_y = len(items)
+    max_x = max_y * len(items[0])
     items = [i * max_x for i in items]
-    # print(items[0:5])
-    print("len(items[0])", len(items[0]))
+
+    x = [i for i in range(3, max_x, 3)]
+    points = [(x[i], i + 1) for i in range(max_y)][0 : len(items) - 1]
 
     cnt = 0
     for point in points:
@@ -32,7 +27,37 @@ def part1():
 
 
 def part2():
-    pass
+    with open(f"{year}/data/day{day}_input.txt", "r") as f:
+        items = f.read().splitlines()
+
+    # Make wider
+    max_y = len(items)
+    max_x = max_y * len(items[0])
+    items = [i * max_x for i in items]
+
+    # Test many slopes
+    slopes = [
+        (1, 1),
+        (3, 1),
+        (5, 1),
+        (7, 1),
+        (1, 2),
+    ]
+    totals = []
+    for slope in slopes:
+        slope_x, slope_y = slope
+        x = [i for i in range(slope_x, max_x, slope_x)][0 : max_y - 1]
+        y = [i for i in range(slope_y, max_x, slope_y)][0 : max_y - 1]
+        points = [(xx, yy) for xx, yy in zip(x, y)]
+        cnt = 0
+        for point in points:
+            _x, _y = point
+            if _y >= len(items):
+                break
+            if items[_y][_x] == "#":
+                cnt += 1
+        totals.append(cnt)
+    return math.prod(totals)
 
 
 if __name__ == "__main__":
