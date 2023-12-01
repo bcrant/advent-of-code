@@ -1,5 +1,4 @@
 import math
-import pprint
 
 
 year, day = 2020, 3
@@ -21,7 +20,6 @@ def part1():
     for point in points:
         _x, _y = point
         if items[_y][_x] == "#":
-            print(f"_x {_x} _y {_y}")
             cnt += 1
     return cnt
 
