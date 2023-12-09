@@ -46,13 +46,34 @@ def part1():
     return sum_ids
 
 
-# def part2():
-#     with open(f"{year}/data/day{day}_input.txt", "r") as f:
-#         items = f.read().splitlines()
-#     return
+def part2():
+    with open(f"{year}/data/day{day}_input.txt", "r") as f:
+        items = f.read().splitlines()
+    games = {}
+    for item in items:
+        game_id, pulls = str(item).split(":")
+        pulls = [
+            pull.strip() 
+            for pull in pulls.replace(";", ",").split(",")
+        ]
+        game_cnt = {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+        }
+        # Get max per each bag
+        for pull in pulls:
+            cnt, color = pull.split(" ")
+            cnt = int(cnt)
+            if cnt > game_cnt.get(color):
+                game_cnt[color] = cnt
+        x,y,z = game_cnt.values()
+        games[game_id] = x*y*z
+
+    return sum(games.values())
 
 
 if __name__ == "__main__":
     print(f"part1 answer: {part1()}")
-    # print(f"part2 answer: {part2()}")
+    print(f"part2 answer: {part2()}")
 
