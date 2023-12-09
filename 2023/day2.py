@@ -17,10 +17,7 @@ def part1():
     games = {}
     for item in items:
         game_id, pulls = str(item).split(":")
-        pulls = [
-            pull.strip() 
-            for pull in pulls.replace(";", ",").split(",")
-        ]
+        pulls = [pull.strip() for pull in pulls.replace(";", ",").split(",")]
         game_cnt = {
             "red": 0,
             "green": 0,
@@ -37,10 +34,7 @@ def part1():
     # Count only bags matching target
     sum_ids = 0
     for game_id, game in games.items():
-        if all(
-            game[color] <= tgt[color]
-            for color in ("red", "green", "blue")
-        ):
+        if all(game[color] <= tgt[color] for color in ("red", "green", "blue")):
             _id = int(game_id.replace("Game ", ""))
             sum_ids += _id
     return sum_ids
@@ -52,10 +46,7 @@ def part2():
     games = {}
     for item in items:
         game_id, pulls = str(item).split(":")
-        pulls = [
-            pull.strip() 
-            for pull in pulls.replace(";", ",").split(",")
-        ]
+        pulls = [pull.strip() for pull in pulls.replace(";", ",").split(",")]
         game_cnt = {
             "red": 0,
             "green": 0,
@@ -67,8 +58,8 @@ def part2():
             cnt = int(cnt)
             if cnt > game_cnt.get(color):
                 game_cnt[color] = cnt
-        x,y,z = game_cnt.values()
-        games[game_id] = x*y*z
+        x, y, z = game_cnt.values()
+        games[game_id] = x * y * z
 
     return sum(games.values())
 
@@ -76,4 +67,3 @@ def part2():
 if __name__ == "__main__":
     print(f"part1 answer: {part1()}")
     print(f"part2 answer: {part2()}")
-
