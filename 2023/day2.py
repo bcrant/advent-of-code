@@ -1,7 +1,7 @@
 import pprint
 
 
-year, day = 2023, 0
+year, day = 2023, 2
 
 
 def part1():
