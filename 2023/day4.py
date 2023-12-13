@@ -1,5 +1,4 @@
 from collections import defaultdict
-from pprint import pprint
 
 
 year, day = 2023, 4
@@ -11,7 +10,6 @@ def part1():
             [i.strip().split() for i in item.split(":")[1].split("|")]
             for item in f.read().splitlines()
         ]
-    # pprint(items)
 
     points = 0
     cards = defaultdict(int)
@@ -20,7 +18,6 @@ def part1():
         winners = [int(n) for n in card[0]]
         picks = [int(n) for n in card[1]]
         cnt = len(set(winners) & set(picks))
-        # print(f'cnt {type(cnt)}: {cnt}')
         if cnt > 0:
             points += 2 ** (cnt - 1)
         for i in range(cnt):
@@ -44,7 +41,6 @@ def part2():
         winners = [int(n) for n in card[0]]
         picks = [int(n) for n in card[1]]
         cnt = len(set(winners) & set(picks))
-        # print(f'cnt {type(cnt)}: {cnt}')
         if cnt > 0:
             points += 2 ** (cnt - 1)
         for i in range(cnt):
