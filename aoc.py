@@ -1,4 +1,4 @@
-import pprint
+from pprint import pprint
 
 
 year, day = 2023, 0
