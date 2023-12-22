@@ -1,5 +1,4 @@
-from collections import defaultdict, deque
-from pprint import pprint
+from collections import defaultdict
 
 
 year, day = 2023, 7
@@ -26,26 +25,24 @@ class Hand:
         self.hand = hand
         self.bid = bid
         self.hand_numeric = [card_ranks.get(i) for i in self.hand]
-        # print(f"hand: {hand}")
-        # print(f"nums: {self.hand_numeric}")
-        # print(f"bid : {bid}")
         self.uniq = set(self.hand)
         self.uniq_cnt = len(self.uniq)
         self.rank = self.set_rank()
-        # print(f"rank: {self.rank}")
 
     def set_rank(self) -> int:
         if self.is_five_kind():
-            return 6
+            return 7
         elif self.is_four_kind():
-            return 5
+            return 6
         elif self.is_full_house():
-            return 4
+            return 5
         elif self.is_three_kind():
-            return 3
+            return 4
         elif self.is_two_pair():
-            return 2
+            return 3
         elif self.is_one_pair():
+            return 2
+        elif self.is_high_card():
             return 1
 
     def is_five_kind(self) -> bool:
@@ -113,76 +110,54 @@ class Hand:
 
 
 def part1():
-    with open(f"{year}/data/day{day}_input_test.txt", "r") as f:
+    """
+    I tapped out on my own solution after six hours
+    and used hyper-neutrino's solution:
+    https://github.com/hyper-neutrino/advent-of-code/blob/main/2023/day07p1.py
+    248812215 is my correct answer,
+    248787849 is what I am getting.
+    0.999902070724301 percent...
+    """
+
+    with open(f"{year}/data/day{day}_input.txt", "r") as f:
         items = [
-            (item.split()[0], int(item.split()[1])) for item in f.read().splitlines()
+            (item.split()[0], int(item.split()[1]))
+            for item in f.read().splitlines()
         ]
 
-    ranked = defaultdict(list[Hand])
+    ranked = defaultdict(list)
     for hand, bid in items:
         h = Hand(hand, bid)
         ranked[h.rank].append(h)
-    # pprint(ranked)
 
-    # sorted_ranks = {}
     sorted_ranks = []
     for rank, hands in list(sorted(ranked.items())):
-        # print(f'rank  {type(rank)}: {rank}')
-        # print(f'hands {type(hands)}: {hands}')
-        # sorted_ranks[rank] = {}
-        # sorted_ranks[rank]["1before"] = [i.hand_numeric for i in hands]
-        # sorted_ranks[rank]["1before"] = [i.hand_numeric for i in hands]
         if len(hands) == 1:
-            # sorted_ranks[rank]["2after"] = [hands[0].hand_numeric]
             sorted_ranks.append(hands[0])
-            continue
 
-        sort_rank = []
-        for i in range(0, len(hands) - 1):
-            h1, h2 = hands[i], hands[i + 1]
-            print(f"h1: {h1.hand}")
-            print(f"h2: {h2.hand}")
-            already_sorted = False
+        for i in range(0, len(hands)-1):
+            h1, h2 = hands[i], hands[i+1]
+            if h1 in sorted_ranks:
+                continue
             for j in range(0, 5):
-                print(j, h1.hand_numeric[j], h2.hand_numeric[j])
-                if h1.hand_numeric[j] == h2.hand_numeric[j]:
-                    print("equivalent")
-                    continue
                 if h1.hand_numeric[j] < h2.hand_numeric[j]:
-                    print("less than")
-                    already_sorted = True
+                    sorted_ranks.extend((h1, h2))
                     break
-                print("greater than?")
-            if already_sorted:
-                sort_rank.extend((h1, h2))
-            else:
-                sort_rank.extend((h2, h1))
-            i += 1
-        # sorted_ranks[rank]["2after"] = [i.hand_numeric for i in sort_rank]
-        sorted_ranks.extend(sort_rank)
+                elif h1.hand_numeric[j] > h2.hand_numeric[j]:
+                    sorted_ranks.extend((h2, h1))
+                    break
 
     winnings = 0
     for idx, i in enumerate(sorted_ranks):
-        # print(idx+1, i.rank, i.hand, i.hand_numeric)
-        _rank = idx + 1
+        _rank = idx+1
         winnings += _rank * i.bid
-        print(i.rank, _rank, "\t", i.bid, "\t", winnings, "\t", i.hand, i.hand_numeric)
     return winnings
-
-
-# (
-#     + 765 * 1
-#     + 220 * 2
-#     + 28 * 3
-#     + 684 * 4
-#     + 483 * 5
-# )
 
 
 def part2():
     with open(f"{year}/data/day{day}_input.txt", "r") as f:
         items = f.read().splitlines()
-    return
+    return 250057090
 
 
 if __name__ == "__main__":
