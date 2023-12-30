@@ -121,8 +121,7 @@ def part1():
 
     with open(f"{year}/data/day{day}_input.txt", "r") as f:
         items = [
-            (item.split()[0], int(item.split()[1]))
-            for item in f.read().splitlines()
+            (item.split()[0], int(item.split()[1])) for item in f.read().splitlines()
         ]
 
     ranked = defaultdict(list)
@@ -135,8 +134,8 @@ def part1():
         if len(hands) == 1:
             sorted_ranks.append(hands[0])
 
-        for i in range(0, len(hands)-1):
-            h1, h2 = hands[i], hands[i+1]
+        for i in range(0, len(hands) - 1):
+            h1, h2 = hands[i], hands[i + 1]
             if h1 in sorted_ranks:
                 continue
             for j in range(0, 5):
@@ -149,7 +148,7 @@ def part1():
 
     winnings = 0
     for idx, i in enumerate(sorted_ranks):
-        _rank = idx+1
+        _rank = idx + 1
         winnings += _rank * i.bid
     return winnings
 
