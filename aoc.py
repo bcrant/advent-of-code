@@ -1,13 +1,13 @@
-from pprint import pprint
+from pprint import pp
 
 
-year, day = 2023, 0
+year, day = 2019, 0
 
 
 def part1():
     with open(f"{year}/data/day{day}_input.txt", "r") as f:
         items = f.read().splitlines()
-    pprint(items)
+    pp(items)
     return
 
 
