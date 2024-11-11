@@ -8,6 +8,7 @@ year, day = 2019, 1
 def equation(num: str) -> int:
     return floor(int(num) / 3) - 2
 
+
 def part1():
     with open(f"{year}/data/day{day}_input.txt", "r") as f:
         items = f.read().splitlines()
