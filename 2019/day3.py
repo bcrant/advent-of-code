@@ -78,18 +78,19 @@ def part1(items: list) -> int:
     # Performance testing different data structures
     #
 
-    # dict_time = timeit(
-    #     stmt='''[
-    #         p
-    #         for p in w1_path.keys()
-    #         if w2_path.get(p)
-    #         and p != start_point
-    #     ]''', 
-    #     globals={'w1_path': w1_path, 'w2_path': w2_path, 'start_point': start_point},
-    #     number=1000
-    # )
+    dict_time = timeit(
+        stmt='''[
+            p
+            for p in w1_path.keys()
+            if w2_path.get(p)
+            and p != start_point
+        ]''', 
+        globals={'w1_path': w1_path, 'w2_path': w2_path, 'start_point': start_point},
+        number=1
+    )
+    print(f'dict_time {type(dict_time)}: {dict_time}')
     # list_time = timeit(
-    # 
+    
     #     stmt='''[
     #         p 
     #         for p in wires[1]
@@ -97,21 +98,10 @@ def part1(items: list) -> int:
     #         and p != start_point
     #     ]''', 
     #     globals={'wires': wires, 'start_point': start_point},
-    #     number=1000
+    #     number=1
     # )
-    # set_time = timeit(
-    #     stmt='''[
-    #         p 
-    #         for p in set(wires[1])
-    #         if p in set(wires[2])
-    #         and p != start_point
-    #     ]''', 
-    #     globals={'wires': wires, 'start_point': start_point},
-    #     number=1000
-    # )
-    # print(f'dict_time {type(dict_time)}: {dict_time}')
     # print(f'list_time {type(list_time)}: {list_time}')
-    # print(f'set_time {type(set_time)}: {set_time}')
+
 
     wire_cross_points = [
         p
