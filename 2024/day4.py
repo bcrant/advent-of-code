@@ -64,29 +64,28 @@ def part1(items):
     dr = defaultdict(list)
     dl = defaultdict(list)
     for row_idx, row in enumerate(items):
-        print()
         for col_idx, col in enumerate(row):
-            print()
             point = (row_idx, col_idx)
-            print(f'point {type(point)}: {point}')
             _dr_point = point
             for _ in range(min_size):
                 dr_point = move(_dr_point, MOVE_DR)
                 dr_row_idx, dr_col_idx = dr_point
-                if dr_row_idx <= min_size and dr_col_idx <= min_size:
+                if dr_row_idx < min_size and dr_col_idx < min_size:
                     dr[point].append(dr_point)
+                    # dr[point].append(items[dr_row_idx][dr_col_idx])
                 _dr_point = dr_point
 
             dl_point = move(point, MOVE_DL)
             dl_row_idx, dl_col_idx = dl_point
-            if 0 >= dl_row_idx <= min_size and 0 >= dl_col_idx <= min_size:
+            if 0 >= dl_row_idx < min_size and 0 >= dl_col_idx < min_size:
                 dl[point].append(dl_point)
+                # dl[point].append(items[dl_row_idx][dl_col_idx])
 
     print(f'dr {type(dr)}:')
-    pp(dr)
+    pp(dict(dr))
 
     print(f'dl {type(dl)}:')
-    pp(dl)
+    pp(dict(dl))
 
 
     # 3. Count all occurrences of "xmas" in each slice
@@ -100,12 +99,12 @@ def part2(items):
 
 def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
     """Apply a move in one direction"""
-    if direction == MOVE_DR:
-        print(f'MOVE_DR: {direction}')
-    if direction == MOVE_DL:
-        print(f'MOVE_DL: {direction}')
+    # if direction == MOVE_DR:
+    #     print(f'MOVE_DR: {direction}')
+    # if direction == MOVE_DL:
+    #     print(f'MOVE_DL: {direction}')
     result = tuple((x + y for x, y in zip(point, direction)))
-    print(f'result : {result}')
+    # print(f'result : {result}')
     return result
 
 
