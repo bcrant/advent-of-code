@@ -23,8 +23,6 @@ def part1(items):
     # 2. Create vertical-down and horiztonal-right slices
     v_downs = defaultdict(list)
     h_rights = defaultdict(list)
-    d_lefts = defaultdict(list)
-    d_rights = defaultdict(list)
     for row_idx, row in enumerate(items):
         h_rights[row_idx] = "".join(row)
         for col_idx, col in enumerate(row):
@@ -86,7 +84,6 @@ def part1(items):
 
     print(f'dl {type(dl)}:')
     pp(dict(dl))
-
 
     # 3. Count all occurrences of "xmas" in each slice
     # 4. Return 
