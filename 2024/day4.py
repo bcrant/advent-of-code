@@ -12,10 +12,12 @@ MOVES = {
     "L": (-1, 0),
 }
 MOVE_DR = MOVE_DIAGONAL_RIGHT_DOWN = (1, 1)
-MOVE_DL = MOVE_DIAGONAL_LEFT_DOWN = (1, -1)
+MOVE_DL = MOVE_DIAGONAL_LEFT_DOWN = (-1, -1)
 
 def part1(items):
+    items = [[i for i in it] for it in items]
     pp(items)
+
 
     # 1. Initialize a counter
     cnt = 0
@@ -46,44 +48,55 @@ def part1(items):
     # print(f'h_lefts {type(h_lefts)}')
     # pp(h_lefts)
 
-    # 4. Create horizontal-right, down, left, right, diagonal left, diagonal right slices
+    # # 4. Create horizontal-right, down, left, right, diagonal left, diagonal right slices
     n_cols, n_rows = len(items[0]), len(items)
     min_size = min(n_rows, n_cols)
-    diagonal_rights = [(i, i) for i in range(min_size)]
-    # diagonal_rights = [items[i][i] for i in range(min(n_rows, n_cols))]
-    print(f'diagonal_rights {type(diagonal_rights)}')
-    pp(diagonal_rights)
+    # diagonal_rights = [(i, i) for i in range(min_size)]
+    # # diagonal_rights = [items[i][i] for i in range(size)]
+    # print(f'diagonal_rights {type(diagonal_rights)}')
+    # pp(diagonal_rights)
 
-    diagonal_lefts = [(i, n_cols - 1 - i) for i in range(min_size)]
-    # diagonal_lefts = [items[i][n_cols - 1 - i] for i in range(min(n_rows, n_cols))]
-    print(f'diagonal_lefts {type(diagonal_lefts)}:')
-    pp(diagonal_lefts)
+    # diagonal_lefts = [(i, n_cols - 1 - i) for i in range(min_size)]
+    # # diagonal_lefts = [items[i][n_cols - 1 - i] for i in range(size)]
+    # print(f'diagonal_lefts {type(diagonal_lefts)}:')
+    # pp(diagonal_lefts)
 
-    dr = defaultdict(list)
-    dl = defaultdict(list)
-    for row_idx, row in enumerate(items):
-        for col_idx, col in enumerate(row):
-            point = (row_idx, col_idx)
-            _dr_point = point
-            for _ in range(min_size):
-                dr_point = move(_dr_point, MOVE_DR)
-                dr_row_idx, dr_col_idx = dr_point
-                if dr_row_idx < min_size and dr_col_idx < min_size:
-                    dr[point].append(dr_point)
-                    # dr[point].append(items[dr_row_idx][dr_col_idx])
-                _dr_point = dr_point
+    fc_drs = defaultdict(list)
+    fr_drs = defaultdict(list)
+    fc_dls = defaultdict(list)
+    fr_dls = defaultdict(list)
+    for idx in range(n_cols):
+        fc_point = (idx, 0)
+        fr_point = (0, idx)
 
-            dl_point = move(point, MOVE_DL)
-            dl_row_idx, dl_col_idx = dl_point
-            if 0 >= dl_row_idx < min_size and 0 >= dl_col_idx < min_size:
-                dl[point].append(dl_point)
-                # dl[point].append(items[dl_row_idx][dl_col_idx])
+        # First column move diagonal down right
+        fc_dr = [move(fc_point, (i, i)) for i in range(min_size)]
+        fc_drs[fc_point].extend(fc_dr)
 
-    print(f'dr {type(dr)}:')
-    pp(dict(dr))
+        # First row move diagonal down right
+        fr_dr = [move(fr_point, (i, i)) for i in range(min_size)]
+        fr_drs[fr_point].extend(fr_dr)
 
-    print(f'dl {type(dl)}:')
-    pp(dict(dl))
+        # # First column move diagonal down left
+        fc_dl = [move(fc_point, (i, n_cols - 1 - i)) for i in range(min_size)]
+        fc_dls[fc_point].extend(fc_dl)
+
+        # First row move diagonal down left
+        fr_dl = [move(fr_point, (i, n_cols - 1 - i)) for i in range(min_size)]
+        fr_dls[fr_point].extend(fr_dl)
+
+
+    print(f'fc_drs {type(fc_drs)}')
+    pp(dict(fc_drs))
+
+    print(f'fr_drs {type(fr_drs)}')
+    pp(dict(fr_drs))
+    
+    print(f'fc_dls {type(fc_dls)}')
+    pp(dict(fc_dls))
+    
+    print(f'fr_dls {type(fr_dls)}')
+    pp(dict(fr_dls))
 
     # 3. Count all occurrences of "xmas" in each slice
     # 4. Return 
@@ -96,12 +109,12 @@ def part2(items):
 
 def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
     """Apply a move in one direction"""
-    # if direction == MOVE_DR:
-    #     print(f'MOVE_DR: {direction}')
-    # if direction == MOVE_DL:
-    #     print(f'MOVE_DL: {direction}')
+    if direction == MOVE_DR:
+        print(f'MOVE_DR: {direction}')
+    if direction == MOVE_DL:
+        print(f'MOVE_DL: {direction}')
     result = tuple((x + y for x, y in zip(point, direction)))
-    # print(f'result : {result}')
+    print(f'result : {result}')
     return result
 
 
