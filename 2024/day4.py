@@ -59,7 +59,7 @@ def part1(items):
     # diagonal_lefts = [(i, n_cols - 1 - i) for i in range(min_size)]
     # # diagonal_lefts = [items[i][n_cols - 1 - i] for i in range(size)]
     # print(f'diagonal_lefts {type(diagonal_lefts)}:')
-    # pp(diagonal_lefts)
+    # pp(diagonal_lefts) 
 
     fc_drs = defaultdict(list)
     fr_drs = defaultdict(list)
