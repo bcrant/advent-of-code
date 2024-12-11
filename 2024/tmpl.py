@@ -29,8 +29,8 @@ def test1():
     ]
     expected = 0
     result = part1(items)
-    print(f'expected: {expected}')
-    print(f'result  : {result}')
+    print(f"expected: {expected}")
+    print(f"result  : {result}")
     return result == expected
 
 
@@ -41,8 +41,8 @@ def test2():
     ]
     expected = 0
     result = part1(items)
-    print(f'expected: {expected}')
-    print(f'result  : {result}')
+    print(f"expected: {expected}")
+    print(f"result  : {result}")
     return result == expected
 
 
@@ -53,8 +53,8 @@ def test3():
     ]
     expected = 0
     result = part1(items)
-    print(f'expected: {expected}')
-    print(f'result  : {result}')
+    print(f"expected: {expected}")
+    print(f"result  : {result}")
     return result == expected
 
 

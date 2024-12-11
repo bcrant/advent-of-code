@@ -10,19 +10,16 @@ def is_safe(level: List[int]) -> bool:
     dsc = sorted(level, reverse=True)
     is_linear = True if asc == level or dsc == level else False
     in_range = True
-    for i in range(0, len(level)-1):
-        diff = abs(level[i]-level[i+1])
+    for i in range(0, len(level) - 1):
+        diff = abs(level[i] - level[i + 1])
         if not 1 <= diff <= 3:
             in_range = False
-    return is_linear and in_range        
+    return is_linear and in_range
 
 
 def part1(items):
     items = read_input(YEAR, DAY)
-    items = [
-        list(map(int, i.split()))
-        for i in items
-    ]
+    items = [list(map(int, i.split())) for i in items]
 
     cnt_safe = 0
     for item in items:
@@ -33,19 +30,15 @@ def part1(items):
     return cnt_safe
 
 
-
 def part2(items):
     items = read_input(YEAR, DAY)
-    items = [
-        list(map(int, i.split()))
-        for i in items
-    ]
+    items = [list(map(int, i.split())) for i in items]
 
     cnt_safe = 0
     for item in items:
         ok = False
         for j in range(len(item)):
-            _item = item[:j] + item[j+1:]
+            _item = item[:j] + item[j + 1 :]
             if is_safe(_item):
                 ok = True
         if ok:

@@ -1,6 +1,5 @@
 """ https://adventofcode.com/2022/day/2 """
 
-
 winners = [
     ("C", "A"),
     ("B", "C"),

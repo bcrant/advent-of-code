@@ -14,14 +14,14 @@ MOVES = {
 MOVE_DR = MOVE_DIAGONAL_RIGHT_DOWN = (1, 1)
 MOVE_DL = MOVE_DIAGONAL_LEFT_DOWN = (-1, -1)
 
+
 def part1(items):
     items = [[i for i in it] for it in items]
     pp(items)
 
-
     # 1. Initialize a counter
     cnt = 0
-    
+
     # 2. Create vertical-down and horiztonal-right slices
     v_downs = defaultdict(list)
     h_rights = defaultdict(list)
@@ -59,7 +59,7 @@ def part1(items):
     # diagonal_lefts = [(i, n_cols - 1 - i) for i in range(min_size)]
     # # diagonal_lefts = [items[i][n_cols - 1 - i] for i in range(size)]
     # print(f'diagonal_lefts {type(diagonal_lefts)}:')
-    # pp(diagonal_lefts) 
+    # pp(diagonal_lefts)
 
     fc_drs = defaultdict(list)
     fr_drs = defaultdict(list)
@@ -85,21 +85,20 @@ def part1(items):
         fr_dl = [move(fr_point, (i, n_cols - 1 - i)) for i in range(min_size)]
         fr_dls[fr_point].extend(fr_dl)
 
-
-    print(f'fc_drs {type(fc_drs)}')
+    print(f"fc_drs {type(fc_drs)}")
     pp(dict(fc_drs))
 
-    print(f'fr_drs {type(fr_drs)}')
+    print(f"fr_drs {type(fr_drs)}")
     pp(dict(fr_drs))
-    
-    print(f'fc_dls {type(fc_dls)}')
+
+    print(f"fc_dls {type(fc_dls)}")
     pp(dict(fc_dls))
-    
-    print(f'fr_dls {type(fr_dls)}')
+
+    print(f"fr_dls {type(fr_dls)}")
     pp(dict(fr_dls))
 
     # 3. Count all occurrences of "xmas" in each slice
-    # 4. Return 
+    # 4. Return
     return
 
 
@@ -110,11 +109,11 @@ def part2(items):
 def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
     """Apply a move in one direction"""
     if direction == MOVE_DR:
-        print(f'MOVE_DR: {direction}')
+        print(f"MOVE_DR: {direction}")
     if direction == MOVE_DL:
-        print(f'MOVE_DL: {direction}')
+        print(f"MOVE_DL: {direction}")
     result = tuple((x + y for x, y in zip(point, direction)))
-    print(f'result : {result}')
+    print(f"result : {result}")
     return result
 
 

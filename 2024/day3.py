@@ -7,8 +7,8 @@ YEAR, DAY = 2024, 3
 
 
 def part1(items: str):
-    muls = items.replace('mul(', '\nmul(').split('\n')
-    muls = [re.findall(r'mul\([0-9]{1,3},[0-9]{1,3}\)', mul) for mul in muls]
+    muls = items.replace("mul(", "\nmul(").split("\n")
+    muls = [re.findall(r"mul\([0-9]{1,3},[0-9]{1,3}\)", mul) for mul in muls]
     muls = list(chain.from_iterable(muls))
     muls = [mul.replace("mul(", "").replace(")", "").split(",") for mul in muls]
     muls = [reduce(operator.mul, list(map(int, mul))) for mul in muls]
@@ -16,10 +16,7 @@ def part1(items: str):
 
 
 def part2(items: str):
-    muls = "".join([
-        mul.split("don't()")[0]
-        for mul in items.split("do()")
-    ])
+    muls = "".join([mul.split("don't()")[0] for mul in items.split("do()")])
     return part1(muls)
 
 
