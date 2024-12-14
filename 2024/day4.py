@@ -23,7 +23,16 @@ MOVES = {
     "SE": MOVE_SE,
     "SW": MOVE_SW
 }
-
+OPPOSITE_DIRECTIONS = {
+    "NE": "SW",
+    "NW": "SE",
+    "SW": "NE",
+    "SE": "NW",
+}
+OPPOSITE_CHARACTER = {
+    "M": "S",
+    "S": "M",
+}
 
 def get_adjacent_values(grid: list[list[str]], curr_pos: Tuple[int, int]) -> dict[Tuple[int, int], Union[None, str]]:
     adjacent = {}
@@ -100,7 +109,7 @@ def get_immediate_adjacent_values(grid: list[list[str]], curr_pos: Tuple[int, in
         adjacent[next_pos] = {
             "direction": direction, 
             "next_pos": next_pos, 
-            "next_val": next_val, 
+            "next_val": next_val,
         }
     return adjacent
 
@@ -112,17 +121,6 @@ def part2(items):
     # 1. Initialize a counter
     cnt = 0
 
-    OPPOSITE_DIRECTIONS = {
-        "NE": "SW",
-        "NW": "SE",
-        "SW": "NE",
-        "SE": "NW",
-    }
-    OPPOSITE_CHARACTER = {
-        "M": "S",
-        "S": "M",
-    }
-
     # 2.
     for y, row in enumerate(items):
         for x, val in enumerate(row):
@@ -132,6 +130,9 @@ def part2(items):
                 adjacent = get_immediate_adjacent_values(items, curr_pos)
                 pp(adjacent)
                 for _, v in adjacent.items():
+                    direction = v["direction"]
+                    value = v["next_val"]
+                    is_opposite = is_opposite_valid(direction, value)
                     if (
                         True 
                         and ((v["direction"] == "NE" and v["next_val"] == "M") and (v["direction"] == "SW" and v["next_val"] == "S"))
@@ -140,6 +141,19 @@ def part2(items):
                         cnt += 1
     return cnt
 
+
+OPPOSITE_DIRECTIONS = {
+    "NE": "SW",
+    "NW": "SE",
+    "SW": "NE",
+    "SE": "NW",
+}
+OPPOSITE_CHARACTER = {
+    "M": "S",
+    "S": "M",
+}
+def is_opposite_valid(d: str, v: str) -> bool:
+    opposite_v = OPPOSITE_DIRECTIONS
 
 def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
     """Apply a move in one direction"""
