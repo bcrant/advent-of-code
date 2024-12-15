@@ -35,52 +35,6 @@ OPPOSITE_CHARACTER = {
 }
 
 
-def get_adjacent_values(
-    grid: list[list[str]], curr_pos: Tuple[int, int]
-) -> dict[Tuple[int, int], Union[None, str]]:
-    adjacent = {}
-    for direction, directive in MOVES.items():
-        next_pos = move(curr_pos, directive)
-        if is_negative(next_pos):
-            continue
-        next_val = get_value_if_exists(grid, next_pos)
-        next_next_pos = move(next_pos, directive)
-        if is_negative(next_next_pos):
-            continue
-        next_next_val = get_value_if_exists(grid, next_next_pos)
-        next_next_next_pos = move(next_next_pos, directive)
-        if is_negative(next_next_next_pos):
-            continue
-        next_next_next_val = get_value_if_exists(grid, next_next_next_pos)
-        adjacent[next_pos] = {
-            "direction": direction,
-            "next_pos": next_pos,
-            "next_val": next_val,
-            "next_next_pos": next_next_pos,
-            "next_next_val": next_next_val,
-            "next_next_next_pos": next_next_next_pos,
-            "next_next_next_val": next_next_next_val,
-        }
-    return adjacent
-
-
-def is_negative(coords: Tuple[int, int]) -> bool:
-    x, y = coords
-    if x < 0 or y < 0:
-        return True
-    return False
-
-
-def get_value_if_exists(
-    grid: list[list[str]], coords: Tuple[int, int]
-) -> Union[None, Tuple[int, int]]:
-    x, y = coords
-    try:
-        return grid[y][x]
-    except IndexError:
-        return None
-
-
 def part1(items):
     items = [[i for i in it] for it in items]
     cnt = 0
@@ -122,6 +76,42 @@ def part2(items):
     return cnt
 
 
+def get_adjacent_values(
+    grid: list[list[str]], curr_pos: Tuple[int, int]
+) -> dict[Tuple[int, int], Union[None, str]]:
+    adjacent = {}
+    for direction, directive in MOVES.items():
+        next_pos = move(curr_pos, directive)
+        if is_negative(next_pos):
+            continue
+        next_val = get_value_if_exists(grid, next_pos)
+        next_next_pos = move(next_pos, directive)
+        if is_negative(next_next_pos):
+            continue
+        next_next_val = get_value_if_exists(grid, next_next_pos)
+        next_next_next_pos = move(next_next_pos, directive)
+        if is_negative(next_next_next_pos):
+            continue
+        next_next_next_val = get_value_if_exists(grid, next_next_next_pos)
+        adjacent[next_pos] = {
+            "direction": direction,
+            "next_pos": next_pos,
+            "next_val": next_val,
+            "next_next_pos": next_next_pos,
+            "next_next_val": next_next_val,
+            "next_next_next_pos": next_next_next_pos,
+            "next_next_next_val": next_next_next_val,
+        }
+    return adjacent
+
+
+def is_negative(coords: Tuple[int, int]) -> bool:
+    x, y = coords
+    if x < 0 or y < 0:
+        return True
+    return False
+
+
 def is_opposite_valid(d: str, v: str, items: dict) -> bool:
     opposite_d = OPPOSITE_DIRECTION[d]
     opposite_v = OPPOSITE_CHARACTER[v]
@@ -142,6 +132,16 @@ def get_immediate_adjacent_values(
         next_val = get_value_if_exists(grid, next_pos)
         adjacent[direction] = next_val
     return adjacent
+
+
+def get_value_if_exists(
+    grid: list[list[str]], coords: Tuple[int, int]
+) -> Union[None, Tuple[int, int]]:
+    x, y = coords
+    try:
+        return grid[y][x]
+    except IndexError:
+        return None
 
 
 def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
