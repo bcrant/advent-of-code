@@ -1,6 +1,7 @@
+from collections import defaultdict
 from copy import deepcopy
 from pprint import pp
-from typing import Tuple
+from typing import List, Tuple
 
 
 YEAR, DAY = 2024, 6
@@ -26,15 +27,13 @@ TURNS = {
 def part1(items):
     pp(items)
     min_size = min(len(items), len(items[0]))
-    print(f"min_size: {min_size}")
-
-    position = find_guard(items)
+    position = search_grid(items, TURNS.keys())[0]
     x, y = position
     direction = items[y][x]
     start_val = direction
     positions = [position]
     while True:
-        print(f"pos={position} dir={direction}")
+        # print(f"pos={position} dir={direction}")
         positions.append(position)
         directive = MOVES[direction]
         i, j = next_position = move(position, directive)
@@ -61,29 +60,37 @@ def part1(items):
 
 
 def part2(items):
-    pp(items)
-    min_size = min(len(items), len(items[0]))
-    print(f"min_size: {min_size}")
+    # pp(items)
+    for i in items: print("".join(i))
+    print()
 
-    position = find_guard(items)
+    min_size = min(len(items), len(items[0]))
+    blockers = search_grid(items, ["#"])
+    position = search_grid(items, TURNS.keys())[0]
     x, y = position
     direction = items[y][x]
+    start_pos = position
     start_val = direction
-    positions = [position]
+    visited = defaultdict(int)
+    positions = []
+    turns = []
     while True:
-        print(f"pos={position} dir={direction}")
-        positions.append(position)
+        # print(f"pos={position} dir={direction}")
+        pos_dir = (position, direction)
+        positions.append(pos_dir)
+        visited[pos_dir] += 1
+
         directive = MOVES[direction]
         i, j = next_position = move(position, directive)
 
         if i < 0 or j < 0 or i > min_size or j > min_size:
-            print(f"Guard has exited map at: items[{j}][{i}]")
+            print(f"Guard has exited map at: (x={i}, y={j})")
             break
 
         try:
             next_obstacle = items[j][i]
         except IndexError:
-            print(f"Guard has exited map at: items[{j}][{i}]")
+            print(f"Guard has exited map at: (x={i}, y={j})")
             break
 
         if next_obstacle == "." or next_obstacle == start_val:
@@ -91,24 +98,50 @@ def part2(items):
             continue
         elif next_obstacle == "#":
             direction = TURNS[direction]
+            turns.append(position)
 
     travelled = deepcopy(items)
-    for position in positions:
+    for position, direction in positions:
         x, y = position
-        travelled[y][x] = "X"
+        if direction in ("v", "^"):
+            travelled[y][x] = "|"
+        elif direction in ("<", ">"):
+            travelled[y][x] = "-"
+        if position == start_pos:
+            travelled[y][x] = start_val
 
-    # pp(positions)
-    pp(travelled)
+    for turn in turns:
+        x, y = turn
+        travelled[y][x] = "+"
+
+    print()
+    print(f'positions {type(positions)}')
+    for p in positions: print(p)
+
+    print()
+    travelled = ["".join(i) for i in travelled]
+    print(f'travelled {type(travelled)}')
+    for t in travelled: print(t)
+
+    print()
+    obstacles = search_grid(items, ["#"])
+    print(f'obstacles {type(obstacles)}')
+    pp(obstacles)
+    print()
+
     ans = len(set(positions))
     return ans
 
 
-def find_guard(grid: list) -> Tuple[int, int]:
+def search_grid(grid: list, search_keys: List[str]) -> List[Tuple[int, int]]:
+    matches = []
     for y, row in enumerate(grid):
         for x, val in enumerate(row):
-            if val in TURNS.keys():
-                return (x, y)
-    raise ValueError("No guard found!")
+            if val in search_keys:
+                matches.append((x, y))
+    if not matches:
+        raise ValueError(f"No matches found in grid for: {search_keys}")
+    return matches
 
 
 def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
