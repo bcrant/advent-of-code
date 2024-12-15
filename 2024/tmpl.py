@@ -5,13 +5,11 @@ YEAR, DAY = 2024, 1
 
 
 def part1(items):
-    items = read_input(YEAR, DAY)
     pp(items)
     return
 
 
 def part2(items):
-    items = read_input(YEAR, DAY)
     pp(items)
     return
 
