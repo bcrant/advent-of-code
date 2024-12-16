@@ -31,7 +31,7 @@ def part1(items):
     x, y = position
     direction = items[y][x]
     start_val = direction
-    positions = [position]
+    positions = []
     while True:
         # print(f"pos={position} dir={direction}")
         positions.append(position)
@@ -64,73 +64,50 @@ def part2(items):
     for i in items: print("".join(i))
     print()
 
+    backup_items = deepcopy(items)
+
     min_size = min(len(items), len(items[0]))
-    blockers = search_grid(items, ["#"])
     position = search_grid(items, TURNS.keys())[0]
     x, y = position
     direction = items[y][x]
     start_pos = position
     start_val = direction
-    visited = defaultdict(int)
-    positions = []
+    items[y][x] = "."
+    visited = set()
     turns = []
     while True:
         # print(f"pos={position} dir={direction}")
-        pos_dir = (position, direction)
-        positions.append(pos_dir)
-        visited[pos_dir] += 1
-
+        visited.add((position, direction))
         directive = MOVES[direction]
         i, j = next_position = move(position, directive)
-
-        if i < 0 or j < 0 or i > min_size or j > min_size:
+        if i < 0 or j < 0 or i >= min_size or j >= min_size:
             print(f"Guard has exited map at: (x={i}, y={j})")
             break
-
-        try:
-            next_obstacle = items[j][i]
-        except IndexError:
-            print(f"Guard has exited map at: (x={i}, y={j})")
-            break
-
-        if next_obstacle == "." or next_obstacle == start_val:
+        
+        next_obstacle = items[j][i]
+        if next_obstacle == ".":
             position = next_position
-            continue
         elif next_obstacle == "#":
             direction = TURNS[direction]
             turns.append(position)
 
-    travelled = deepcopy(items)
-    for position, direction in positions:
-        x, y = position
-        if direction in ("v", "^"):
-            travelled[y][x] = "|"
-        elif direction in ("<", ">"):
-            travelled[y][x] = "-"
-        if position == start_pos:
-            travelled[y][x] = start_val
+    # PART 2
+    for idx, visit in enumerate(visited):
+        (position, direction) = visit
+        directive = MOVES[direction]
+        i, j = move(position, directive)
+        if i < 0 or j < 0 or i >= min_size or j >= min_size:
+            print(f"Guard has exited map at: (x={i}, y={j})")
+            break
 
-    for turn in turns:
-        x, y = turn
-        travelled[y][x] = "+"
 
-    print()
-    print(f'positions {type(positions)}')
-    for p in positions: print(p)
-
-    print()
-    travelled = ["".join(i) for i in travelled]
-    print(f'travelled {type(travelled)}')
-    for t in travelled: print(t)
-
-    print()
-    obstacles = search_grid(items, ["#"])
-    print(f'obstacles {type(obstacles)}')
-    pp(obstacles)
-    print()
-
-    ans = len(set(positions))
+    plot_moves(visited, turns, start_pos, start_val)
+    ans = len(set(visited))
     return ans
+
+
+
+
 
 
 def search_grid(grid: list, search_keys: List[str]) -> List[Tuple[int, int]]:
@@ -148,6 +125,31 @@ def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
     """Apply a move in one direction"""
     result = tuple((x + y for x, y in zip(point, direction)))
     return result
+
+
+def plot_moves(positions, turns, start_pos, start_val) -> None:
+    travelled = deepcopy(items)
+    for position, direction in positions:
+        x, y = position
+        if direction in ("v", "^"):
+            travelled[y][x] = "|"
+        elif direction in ("<", ">"):
+            travelled[y][x] = "-"
+        if position == start_pos:
+            travelled[y][x] = start_val
+
+    for turn in turns:
+        x, y = turn
+        travelled[y][x] = "+"
+
+    # print()
+    # print(f'positions {type(positions)}')
+    for p in positions: print(p)
+
+    print()
+    travelled = ["".join(i) for i in travelled]
+    print(f'travelled {type(travelled)}')
+    for t in travelled: print(t)
 
 
 def read_input(year: int, day: int) -> list:
