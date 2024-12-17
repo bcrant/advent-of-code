@@ -1,7 +1,7 @@
 from pprint import pp
 
 
-YEAR, DAY = 2024, 1
+YEAR, DAY = 2024, 7
 
 
 def part1(items):
