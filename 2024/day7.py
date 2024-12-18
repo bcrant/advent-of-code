@@ -10,6 +10,7 @@ YEAR, DAY = 2024, 7
 def part1(items: Dict[int, List[int]]):
     ans = 0
     for k, v in items.items():
+        print(f'v: {v}')
         # Try adding all
         if sum(v) == k:
             ans += k
@@ -17,10 +18,15 @@ def part1(items: Dict[int, List[int]]):
         if math.prod(v) == k:
             ans += k
         # Try permutations of adding * multiplying
-        pair = [[val, v[idx+1]] for idx, val in enumerate(v[0:-1])]
-        adds = [sum(p) for p in pair]
-        muls = [math.prod(p) for p in pair]
-        combos = list(itertools.product(adds, muls))
+        pairs = [[val, v[idx+1]] for idx, val in enumerate(v[0:-1])]
+        print(f'p: {pairs}')
+        adds = [sum(pair) for pair in pairs]
+        print(f'a: {adds}')
+        muls = [math.prod(pair) for pair in pairs]
+        print(f'm: {muls}')
+        combos = [*adds, *muls]
+        # combos = list(itertools.product(adds, muls))
+        combos = itertools.combinations()
         pp(combos)
 
     return ans
