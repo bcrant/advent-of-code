@@ -1,10 +1,12 @@
 import itertools
+from datetime import datetime
 from pprint import pp
 from typing import Dict, List
 
 
 YEAR, DAY = 2024, 7
 ADD = "+"
+CAT = "||"
 MUL = "*"
 
 
@@ -24,7 +26,7 @@ def part1(items: Dict[int, List[int]]):
                     pass
 
             while len(op) >= 3:
-                result = str(eval("".join(op[0:3])))
+                result = calc(op[0:3])
                 op = [result, *op[3:]]
                 print(f"op: {op}")
 
@@ -37,9 +39,10 @@ def part1(items: Dict[int, List[int]]):
 
 
 def part2(items):
-    ops = [ADD, MUL]
+    ops = [ADD, CAT, MUL]
     ans = 0
     for k, v in items.items():
+        print(f'{datetime.now()} ans={ans} next_input={v}')
         repeat = len(v) - 1
         combos = list(itertools.product(ops, repeat=repeat))
         for combo in combos:
@@ -52,9 +55,9 @@ def part2(items):
                     pass
 
             while len(op) >= 3:
-                result = str(eval("".join(op[0:3])))
+                result = calc(op[0:3])
                 op = [result, *op[3:]]
-                print(f"op: {op}")
+                # print(f"op: {op}")
 
             _sum = int(op[0])
             if _sum != int(k):
@@ -64,12 +67,20 @@ def part2(items):
     return ans
 
 
+def calc(s: list) -> int:
+    a, op, b = int(s[0]), s[1], int(s[2])
+    if op == ADD:
+        return a + b
+    elif op == CAT:
+        return int(f"{a}{b}")
+    elif op == MUL:
+        return a * b
+
 def read_input(year: int, day: int) -> list:
     with open(f"{year}/data/day{day}_input.txt", "r") as f:
         items = f.read().splitlines()
         items = [item.split(": ") for item in items]
-        # items = {int(k): list(map(int, v.split())) for k, v in items}
-        items = {k: v.split() for k, v in items}
+        items = {int(k): list(map(int, v.split())) for k, v in items}
         return items
 
 
