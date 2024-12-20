@@ -22,12 +22,12 @@ def part1(items: Dict[int, List[int]]):
                     op.append(combo[i])
                 except IndexError:
                     pass
-                        
+
             while len(op) >= 3:
-                result = str(eval(''.join(op[0:3])))
+                result = str(eval("".join(op[0:3])))
                 op = [result, *op[3:]]
-                print(f'op: {op}')
-            
+                print(f"op: {op}")
+
             _sum = int(op[0])
             if _sum != int(k):
                 continue
@@ -37,8 +37,31 @@ def part1(items: Dict[int, List[int]]):
 
 
 def part2(items):
-    pp(items)
-    return
+    ops = [ADD, MUL]
+    ans = 0
+    for k, v in items.items():
+        repeat = len(v) - 1
+        combos = list(itertools.product(ops, repeat=repeat))
+        for combo in combos:
+            op = []
+            for i in range(len(v)):
+                op.append(v[i])
+                try:
+                    op.append(combo[i])
+                except IndexError:
+                    pass
+
+            while len(op) >= 3:
+                result = str(eval("".join(op[0:3])))
+                op = [result, *op[3:]]
+                print(f"op: {op}")
+
+            _sum = int(op[0])
+            if _sum != int(k):
+                continue
+            ans += int(k)
+            break
+    return ans
 
 
 def read_input(year: int, day: int) -> list:
@@ -52,5 +75,5 @@ def read_input(year: int, day: int) -> list:
 
 if __name__ == "__main__":
     items = read_input(YEAR, DAY)
-    print(f"part1 answer: {part1(items)}")  # 3749
-    # print(f"part2 answer: {part2(items)}")
+    # print(f"part1 answer: {part1(items)}")  # 3749
+    print(f"part2 answer: {part2(items)}")
