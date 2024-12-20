@@ -22,23 +22,17 @@ def part1(items: Dict[int, List[int]]):
                     op.append(combo[i])
                 except IndexError:
                     pass
-
-            print(f'op: {op}')
-
-            # This uses precedence rules. The question specifies NOT to use PEDMAS.
-            # Compute from left to right instead.
-            # result = eval(''.join(op))
-            # print(f'op: {op} -> {result} || k={k} k==result ? {k==result}')
                         
             while len(op) >= 3:
                 result = str(eval(''.join(op[0:3])))
                 op = [result, *op[3:]]
-                # print(f'op: {op}')
+                print(f'op: {op}')
+            
             _sum = int(op[0])
-            print(f'_sum: {_sum} eq {int(k)}')
-            if _sum == int(k):
-                ans += int(k)
-            # break
+            if _sum != int(k):
+                continue
+            ans += int(k)
+            break
     return ans
 
 
