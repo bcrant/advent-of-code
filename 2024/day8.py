@@ -12,6 +12,7 @@ CAVEATS
 """
 
 import itertools
+from collections import defaultdict
 from pprint import pp
 from typing import Tuple
 
@@ -22,9 +23,11 @@ AN = "#"
 
 def part1(items):
     pp(items)
+    # Boundaries
+    boundaries = (len(items[0]), len(items))
+
     # Find all unique characters
     antennas = [c for c in set(''.join(items)) if c != "."]
-    print(f'antennas: {antennas}')
     
     # Find all occurrences of the unique characters
     locations = {k: [] for k in antennas}
@@ -33,23 +36,20 @@ def part1(items):
             if val == ".":
                 continue
             locations[val].append((x, y))
-    # pp(locations)
 
     # Determine all pairs and distance between pairs
-    combos = {}
+    pair_antinodes = set()
     for k, v in locations.items():
         pairs = list(itertools.combinations(v, r=2))
         for pair in pairs:
-            print(f'pair: {pair}')
-            p1, p2 = pair
-            print(f'p1 {type(p1)}: {p1}')
-            print(f'p2 {type(p2)}: {p2}')
-            distance = get_distance(p1, p2)
-            print(f'dstc: {distance}')
+            antinodes = get_antinodes(pair)
+            for antinode in antinodes:
+                in_bounds = is_within_bounds(antinode, boundaries)
+                if not in_bounds:
+                    continue
+                pair_antinodes.add(antinode)
 
-        combos[k] = list(itertools.combinations(v, r=2))
-    pp(combos)
-    return
+    return len(pair_antinodes)
 
 
 def part2(items):
@@ -57,13 +57,52 @@ def part2(items):
     return
 
 
-def get_distance(p1: Tuple[int, int], p2: Tuple[int, int]) -> Tuple[int, int]:
+def get_antinodes(pair: Tuple[Tuple[int, int], Tuple[int, int]]) -> Tuple[int, int]:
+    p1, p2 = pair
+    s1 = get_slope(p1, p2)
+    s2 = get_reverse_slope(s1)
+    a1 = move(p1, s1)
+    a2 = move(p1, s2)
+    a3 = move(p2, s1)
+    a4 = move(p2, s2)
+    antinodes = [
+        antinode
+        for antinode in [a1, a2, a3, a4]
+        if antinode not in [p1, p2]
+    ]
+    return antinodes
+
+
+def get_slope(p1: Tuple[int, int], p2: Tuple[int, int]) -> Tuple[int, int]:
     x = p2[0] - p1[0]
     y = p2[1] - p1[1]
     return (x, y)
 
-def get_antinode(distance: Tuple[int, int], p: Tuple[int, int]) -> Tuple[int, int]:
-    return
+
+def get_reverse_slope(slope: Tuple[int, int]) -> Tuple[int, int]:
+    x, y = slope
+    x = x * -1 if x > 0 else abs(x)
+    y = y * -1 if y > 0 else abs(x)
+    return (x, y)
+
+
+def is_within_bounds(pair: Tuple[int, int], boundaries: Tuple[int, int]) -> bool:
+    px, py = pair
+    xb, yb = boundaries
+    in_bounds = True
+    if any((p < 0) for p in (px, py)):
+        in_bounds = False
+    if px > xb:
+        in_bounds = False
+    if py > yb:
+        in_bounds = False
+    return in_bounds
+
+
+def move(point: Tuple[int, int], direction: Tuple[int, int]) -> Tuple[int, int]:
+    """Apply a move in one direction"""
+    result = tuple((x + y for x, y in zip(point, direction)))
+    return result
 
 
 def read_input(year: int, day: int) -> list:
@@ -74,5 +113,5 @@ def read_input(year: int, day: int) -> list:
 
 if __name__ == "__main__":
     items = read_input(YEAR, DAY)
-    print(f"part1 answer: {part1(items)} (test_answer=14)")
+    print(f"part1 answer: {part1(items)}")
     # print(f"part2 answer: {part2(items)}")
