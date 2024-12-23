@@ -33,11 +33,20 @@ def part1(items):
             if val == ".":
                 continue
             locations[val].append((x, y))
-    pp(locations)
+    # pp(locations)
 
     # Determine all pairs and distance between pairs
     combos = {}
     for k, v in locations.items():
+        pairs = list(itertools.combinations(v, r=2))
+        for pair in pairs:
+            print(f'pair: {pair}')
+            p1, p2 = pair
+            print(f'p1 {type(p1)}: {p1}')
+            print(f'p2 {type(p2)}: {p2}')
+            distance = get_distance(p1, p2)
+            print(f'dstc: {distance}')
+
         combos[k] = list(itertools.combinations(v, r=2))
     pp(combos)
     return
@@ -49,9 +58,12 @@ def part2(items):
 
 
 def get_distance(p1: Tuple[int, int], p2: Tuple[int, int]) -> Tuple[int, int]:
-    x = abs(p2[0] - p1[0])
-    y = abs(p2[1] - p2[1])
+    x = p2[0] - p1[0]
+    y = p2[1] - p1[1]
     return (x, y)
+
+def get_antinode(distance: Tuple[int, int], p: Tuple[int, int]) -> Tuple[int, int]:
+    return
 
 
 def read_input(year: int, day: int) -> list:
