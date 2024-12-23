@@ -92,9 +92,9 @@ def is_within_bounds(pair: Tuple[int, int], boundaries: Tuple[int, int]) -> bool
     in_bounds = True
     if any((p < 0) for p in (px, py)):
         in_bounds = False
-    if px > xb:
+    if px >= xb:
         in_bounds = False
-    if py > yb:
+    if py >= yb:
         in_bounds = False
     return in_bounds
 
