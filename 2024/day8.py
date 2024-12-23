@@ -54,7 +54,64 @@ def part1(items):
 
 def part2(items):
     pp(items)
-    return
+    # Boundaries
+    boundaries = (len(items[0]), len(items))
+
+    # Find all unique characters
+    antennas = [c for c in set(''.join(items)) if c != "."]
+    
+    # Find all occurrences of the unique characters
+    locations = {k: [] for k in antennas}
+    for y, row in enumerate(items):
+        for x, val in enumerate(row):
+            if val == ".":
+                continue
+            locations[val].append((x, y))
+
+    # Determine all pairs and distance between pairs
+    antenna_locations = locations.values()
+    antenna_pairs = []
+    for antenna_location in antenna_locations:
+        antenna_pairs.extend(list(itertools.combinations(antenna_location, r=2)))
+
+    pair_antinodes = set()
+    for pair in antenna_pairs:
+        print()
+        print(f'pair {type(pair)}: {pair}')
+        _pair = pair
+        p1, p2 = _pair
+        s1 = get_slope(p1, p2)
+        s2 = get_reverse_slope(s1)
+        in_bound = True
+        while in_bound:
+            p1, p2 = _pair
+            a1 = move(p1, s1)
+            a2 = move(p1, s2)
+            a3 = move(p2, s1)
+            a4 = move(p2, s2)
+            for antinode in [a1, a2, a3, a4]:
+                if antinode in [p1, p2]:
+                    continue
+                if is_within_bounds(antinode, boundaries):
+                    pair_antinodes.add(antinode)
+                else:
+                    in_bound = False
+                print(f'antinode {type(antinode)}: {antinode}')
+                _pair = antinode
+
+
+            # antinodes = get_antinodes(pair)
+            # while True:
+            #     in_bounds = is_within_bounds(antinodes, boundaries)
+            #     print(f'pair: {pair} antinodes: {antinodes}')
+            #     for antinode in antinodes:
+            #         True
+            #     in_bounds = is_within_bounds(antinode, boundaries)
+            #     if not in_bounds:
+            #         continue
+            #     pair_antinodes.add(antinode)
+
+    return len(pair_antinodes)
 
 
 def get_antinodes(pair: Tuple[Tuple[int, int], Tuple[int, int]]) -> Tuple[int, int]:
@@ -113,5 +170,5 @@ def read_input(year: int, day: int) -> list:
 
 if __name__ == "__main__":
     items = read_input(YEAR, DAY)
-    print(f"part1 answer: {part1(items)}")
-    # print(f"part2 answer: {part2(items)}")
+    # print(f"part1 answer: {part1(items)}")
+    print(f"part2 answer: {part2(items)}")
