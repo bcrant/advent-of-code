@@ -14,12 +14,13 @@ CAVEATS
 import itertools
 from collections import defaultdict
 from pprint import pp
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 
 YEAR, DAY = 2024, 8
 
 AN = "#"
+
 
 def part1(items):
     pp(items)
@@ -27,8 +28,8 @@ def part1(items):
     boundaries = (len(items[0]), len(items))
 
     # Find all unique characters
-    antennas = [c for c in set(''.join(items)) if c != "."]
-    
+    antennas = [c for c in set("".join(items)) if c != "."]
+
     # Find all occurrences of the unique characters
     locations = {k: [] for k in antennas}
     for y, row in enumerate(items):
@@ -58,8 +59,8 @@ def part2(items):
     boundaries = (len(items[0]), len(items))
 
     # Find all unique characters
-    antennas = [c for c in set(''.join(items)) if c != "."]
-    
+    antennas = [c for c in set("".join(items)) if c != "."]
+
     # Find all occurrences of the unique characters
     locations = {k: [] for k in antennas}
     for y, row in enumerate(items):
@@ -77,49 +78,31 @@ def part2(items):
 
     pair_antinodes = set()
     for pair in antenna_pairs:
-        print()
-        print(f'pair {type(pair)}: {pair}')
         p1, p2 = pair
         s1 = get_slope(p1, p2)
         s2 = get_reverse_slope(s1)
-        #
-        # To recurse, the inputs needed are:
-        # - boundaries
-        # - point
-        # - slope
-        # - reverse slope
-        #
         for p in pair:
-            a1 = move(p, s1)
-            a2 = move(p, s2)
-            for antinode in [a1, a2]:
-                if antinode in [p1, p2]:
-                    continue
-                if is_within_bounds(antinode, boundaries):
-                    pair_antinodes.add(antinode)
-                print(f'antinode {type(antinode)}: {antinode}')
+            for s in [s1, s2]:
+                nodes = generate_nodes(p, s, boundaries)
+                pair_antinodes.update(nodes)
 
     return len(pair_antinodes)
 
 
 def generate_nodes(
-    point: Tuple[int, int], 
-    slope: Tuple[int, int], 
-    boundaries: Tuple[int, int]
-) -> List[Tuple[int, int]]:
+    point: Tuple[int, int], slope: Tuple[int, int], boundaries: Tuple[int, int]
+) -> Set[Tuple[int, int]]:
     in_bound = True
     nodes = set()
     p = point
-    s1 = slope
-    s2 = get_reverse_slope(s1)
+    s = slope
     while in_bound:
-        a1 = move(p, s1)
-        a2 = move(p, s2)
-        for antinode in [a1, a2]:
-            if is_within_bounds(antinode, boundaries):
-                nodes.add(antinode)
-            print(f'antinode {type(antinode)}: {antinode}')
-    return
+        a = move(p, s)
+        in_bound = is_within_bounds(a, boundaries)
+        if in_bound:
+            nodes.add(a)
+            p = a
+    return nodes
 
 
 def get_antinodes(pair: Tuple[Tuple[int, int], Tuple[int, int]]) -> Tuple[int, int]:
@@ -130,11 +113,7 @@ def get_antinodes(pair: Tuple[Tuple[int, int], Tuple[int, int]]) -> Tuple[int, i
     a2 = move(p1, s2)
     a3 = move(p2, s1)
     a4 = move(p2, s2)
-    antinodes = [
-        antinode
-        for antinode in [a1, a2, a3, a4]
-        if antinode not in [p1, p2]
-    ]
+    antinodes = [antinode for antinode in [a1, a2, a3, a4] if antinode not in [p1, p2]]
     return antinodes
 
 

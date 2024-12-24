@@ -42,7 +42,7 @@ def part2(items):
     ops = [ADD, CAT, MUL]
     ans = 0
     for k, v in items.items():
-        print(f'{datetime.now()} ans={ans} next_input={v}')
+        print(f"{datetime.now()} ans={ans} next_input={v}")
         repeat = len(v) - 1
         combos = list(itertools.product(ops, repeat=repeat))
         for combo in combos:
@@ -75,6 +75,7 @@ def calc(s: list) -> int:
         return int(f"{a}{b}")
     elif op == MUL:
         return a * b
+
 
 def read_input(year: int, day: int) -> list:
     with open(f"{year}/data/day{day}_input.txt", "r") as f:
