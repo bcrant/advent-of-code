@@ -20,6 +20,27 @@ MOVES = {
 }
 
 
+def bfs(graph, start):
+    visited = set()  # Set to track visited nodes
+    queue = deque([start])  # Initialize the queue with the start node
+    result = []  # List to store the order of traversal
+
+    while queue:
+        # Dequeue a vertex from the queue
+        current_node = queue.popleft()
+
+        if current_node not in visited:
+            # Mark the node as visited and process it
+            visited.add(current_node)
+            result.append(current_node)
+
+            # Enqueue all adjacent unvisited nodes
+            for neighbor in graph[current_node]:
+                if neighbor not in visited:
+                    queue.append(neighbor)
+    return result
+
+
 def part1(items):
     pp(items)
     start_positions: List[int, int] = []
@@ -34,28 +55,68 @@ def part1(items):
     cnt = 0
     trails = defaultdict(dict)
     for start_pos in start_positions:
-        curr_pos = start_pos
-        trail = []
-        while True:
-            valid_moves = get_valid_adjacent_moves(items, curr_pos)
+        visited = set()             # Set to track visited nodes
+        queue = deque([start_pos])  # Initialize the queue with the start node
+        result = []                 # List to store the order of traversal
+        print(f'result: {result}')
+    
+        while queue:
+            # Dequeue a vertex from the queue
+            current_node = queue.popleft()
+            print(f'current_node: {current_node}')
 
-            # Base case: Ran out of moves without reaching target
-            if not valid_moves:
-                break
+            # Base case: Reached target
+            if current_node in end_positions:
+                cnt += 1
+                continue
 
-            for valid_move in valid_moves:
-                print(f'valid_move {type(valid_move)}: {valid_move}')
+            if current_node not in visited:
+                # Mark the node as visited and process it
+                visited.add(current_node)
+                result.append(current_node)
 
-                # Base case: Reached target
-                if valid_move in end_positions:
-                    trails[curr_pos][valid_move]
-                    cnt += 1
-                    continue
+                # Enqueue all adjacent unvisited nodes
+                neighbors = get_valid_adjacent_moves(items, current_node)
+                for neighbor in neighbors:
+                    
+                    # Base case: Reached target
+                    if neighbor in end_positions:
+                        # visited.add(neighbor)
+                        cnt += 1
+                        continue
 
-                trails[curr_pos][valid_move] = {}
-                curr_pos = valid_move
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+        print(f'result: {result}')
+
+        # curr_pos = start_pos
+        # trail = []
+        # while True:
+        #     # Base case: Reached target
+        #     if curr_pos in end_positions:
+        #         trails[curr_pos][valid_move]
+        #         cnt += 1
+        #         continue
             
-            break
+        #     valid_moves = get_valid_adjacent_moves(items, curr_pos)
+
+        #     # Base case: Ran out of moves without reaching target
+        #     if not valid_moves:
+        #         break
+
+        #     for valid_move in valid_moves:
+        #         print(f'valid_move {type(valid_move)}: {valid_move}')
+
+        #         # Base case: Reached target
+        #         if valid_move in end_positions:
+        #             trails[curr_pos][valid_move]
+        #             cnt += 1
+        #             continue
+
+        #         trails[curr_pos][valid_move] = {}
+        #         curr_pos = valid_move
+            
+        #     break
     print()
     print(f'start_positions : {start_positions}')
     print(f'end_positions   : {end_positions}')
@@ -66,7 +127,7 @@ def part1(items):
     pp(trails)
     print()
 
-    # return len(all_trails)
+    return cnt
 
 
 def part2(items):
