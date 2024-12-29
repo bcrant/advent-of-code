@@ -10,7 +10,7 @@ YEAR, DAY = 2024, 11
 def part1(items):
     stones: List[int] = items
     blinks = 25
-    for blink in range(1, blinks+1):
+    for blink in range(1, blinks + 1):
         _stones = []
         for stone in stones:
             is_even = len(str(stone)) % 2 == 0
@@ -19,9 +19,9 @@ def part1(items):
             if stone == 0:
                 _stones.append(1)
 
-            # If the stone is engraved with a number that has an even number of digits, it is replaced by two stones... 
-            #       The left half of the digits are engraved on the new left stone, 
-            #       and the right half of the digits are engraved on the new right stone. 
+            # If the stone is engraved with a number that has an even number of digits, it is replaced by two stones...
+            #       The left half of the digits are engraved on the new left stone,
+            #       and the right half of the digits are engraved on the new right stone.
             #       (The new numbers don't keep extra leading zeroes: 1000 would become stones 10 and 0.)
             elif is_even:
                 mid = int(len(str(stone)) / 2)
@@ -48,16 +48,16 @@ def blink(stone: int, num_blinks: int) -> list[int]:
         return 1
 
     if stone == 0:
-        return blink(1, num_blinks-1)
+        return blink(1, num_blinks - 1)
 
     is_even = len(str(stone)) % 2 == 0
     if is_even:
         mid = int(len(str(stone)) / 2)
         a, b = int(str(stone)[0:mid]), int(str(stone)[mid:])
-        return blink(a,  num_blinks-1) + blink(b, num_blinks-1)
-    
+        return blink(a, num_blinks - 1) + blink(b, num_blinks - 1)
+
     else:
-        return blink(stone * 2024, num_blinks-1)
+        return blink(stone * 2024, num_blinks - 1)
 
 
 def read_input(year: int, day: int) -> list:
