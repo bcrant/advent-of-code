@@ -15,9 +15,15 @@ ClawMachine = namedtuple("ClawMachine", ["a", "b", "p"])
 
 
 def part1(items):
-    # test base case with first machine.
-    item = items[0]
-    # expected: A button 80 times, B button 40 times == 280 tokens
+    result = {}
+    for item in items:
+        print(f'item {type(item)}: {item}')
+        result[str(item)] = route_machine(item)
+    pp(result)
+    return result
+
+
+def route_machine(item):
     print(item)
 
     ax, ay = item.a
@@ -46,22 +52,22 @@ def part1(items):
         n*bx: n
         for n in range(0, bxx)
     }
-    print(f'ax_maps {type(ax_maps)}: {ax_maps}')
-    pp(ax_maps)
-    print()
+    ay_maps = {
+        n*ay: n
+        for n in range(0, ayy)
+    }    
+    by_maps = {
+        n*by: n
+        for n in range(0, byy)
+    }
 
-    print(f'bx_maps {type(bx_maps)}: {bx_maps}')
-    pp(bx_maps)
-    print()
 
     # Prize X position is evenly divisible by A or B button alone.
-    print("Checking for evenly divisible...")
     if px in ax_maps.keys() or px in bx_maps.keys():
         match = ax_maps[px] or bx_maps[px]
         print(f"Exact match! x = {match}")
 
     # Brute force combinations of A and B button presses
-    print("Checking for combinations...")
     x_tokens = {}
     for ax in ax_maps.keys():
         for bx in bx_maps.keys():
@@ -74,22 +80,30 @@ def part1(items):
                 x_tokens[total_tokens] = (ab, bb)
                 break
 
+    print(f'x_tokens {type(x_tokens)}:')
     pp(x_tokens)
-    return min(x_tokens.keys())
+    min_x_tokens = min(x_tokens.keys()) if x_tokens.keys() else None
+    print(f'min_x_tokens: {min_x_tokens}')
 
-    # y_maps = {}
-    # for n in range(0, ayy):
-    #     eq_str = f"n{n} * ay{ay} = {n*ay}"
-    #     y_maps[eq_str] = (n, ay, n*ay)
-    # print(f'y_maps {type(y_maps)}')
-    # pp(y_maps)
+    y_tokens = {}
+    for ay in ay_maps.keys():
+        for by in by_maps.keys():
+            cy = ay + by
+            if cy == py:
+                ab = ay_maps[ay]
+                bb = by_maps[by]
+                total_tokens = (ab * TOKENS_A) + (bb * TOKENS_B)
+                # print(f"Combined match! ay+by=cy {ay}+{by}={cy} --> Button presses: (A={ab}, B={bb}) --> {total_tokens} tokens")
+                y_tokens[total_tokens] = (ab, bb)
+                break
 
-    # while n <= axx:
-    #     print(f"n*x {n * ax}")
-    #     if n * ax == px:
-    #         print(f"Match! n{n} * ax{ax} == px{px}")
-    #     n += 1
-    # return
+    print(f'y_tokens {type(y_tokens)}')
+    pp(y_tokens)
+    min_y_tokens = min(y_tokens.keys()) if y_tokens.keys() else None
+    print(f'min_y_tokens: {min_y_tokens}')
+
+    ans = min([k for k in x_tokens.keys() if k in y_tokens.keys()])
+    return ans
 
 
 def part2(items):
