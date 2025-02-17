@@ -11,16 +11,18 @@ class Claim:
     #123 @ 3,2: 5x4
     ID=123 | 3 from left, 2 from top | 5 wide, 4 height
     """
+
     def __init__(self, raw: str):
         self.raw = raw
-        self.id = int(raw.split(' @ ')[0][1:])
-        self.x = int(raw.split('@ ')[1].split(',')[0])
-        self.y = int(raw.split(',')[1].split(':')[0])
-        self.w = int(raw.split(': ')[1].split('x')[0])
-        self.h = int(raw.split('x')[1])
+        self.id = int(raw.split(" @ ")[0][1:])
+        self.x = int(raw.split("@ ")[1].split(",")[0])
+        self.y = int(raw.split(",")[1].split(":")[0])
+        self.w = int(raw.split(": ")[1].split("x")[0])
+        self.h = int(raw.split("x")[1])
 
     def __str__(self):
         return f"id={self.id}\tx={self.x}\ty={self.y}\tw={self.w}\th={self.h}"
+
 
 # def part1(items):
 #     grid = ["."*1200 for _ in range(0, 1200)]
@@ -38,11 +40,11 @@ class Claim:
 #     return ans
 
 
-
 def part1(items):
-    claims = [[*map(int, re.findall(r'\d+', l))] for l in items if l]
-    squares = lambda c: ((i, j) for i in range(c[1], c[1]+c[3])
-                                for j in range(c[2], c[2]+c[4]))
+    claims = [[*map(int, re.findall(r"\d+", l))] for l in items if l]
+    squares = lambda c: (
+        (i, j) for i in range(c[1], c[1] + c[3]) for j in range(c[2], c[2] + c[4])
+    )
     fabric = Counter(s for c in claims for s in squares(c))
 
     part1 = sum(1 for v in fabric.values() if v > 1)
@@ -50,9 +52,10 @@ def part1(items):
 
 
 def part2(items):
-    claims = [[*map(int, re.findall(r'\d+', l))] for l in items if l]
-    squares = lambda c: ((i, j) for i in range(c[1], c[1]+c[3])
-                                for j in range(c[2], c[2]+c[4]))
+    claims = [[*map(int, re.findall(r"\d+", l))] for l in items if l]
+    squares = lambda c: (
+        (i, j) for i in range(c[1], c[1] + c[3]) for j in range(c[2], c[2] + c[4])
+    )
     fabric = Counter(s for c in claims for s in squares(c))
     part2 = next(c[0] for c in claims if all(fabric[s] == 1 for s in squares(c)))
     return part2

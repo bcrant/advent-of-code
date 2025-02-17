@@ -14,9 +14,10 @@ def part1(items):
     logs = {}
     for d in sorted(tmp.keys()):
         logs[d] = tmp[d]
-    pp(logs)
+    # pp(logs)
 
-    naps = defaultdict(int) # key=guard_id value=mins
+    naps = defaultdict(int)  # key=guard_id value=mins
+    mins = defaultdict(dict)
     guard = None
     nap_start = None
     nap_end = None
@@ -26,14 +27,39 @@ def part1(items):
 
         elif "falls asleep" in msg:
             nap_start = int(msg[15:17])
-        
+
         elif "wakes up" in msg:
             nap_end = int(msg[15:17])
-        
+
         if nap_start and nap_end:
+            # Determine which guard sleeps the most
             nap_len = nap_end - nap_start
             naps[guard] += nap_len
-    pp(naps)
+
+            # Track which minutes the guards are most often asleep
+            if not mins.get(guard):
+                mins[guard] = defaultdict(int)
+            for n in range(nap_start, nap_end):
+                mins[guard][n] += 1
+
+    # pp(naps)
+    max_sleep = max(naps.values())
+    max_guard = None
+    for k, v in naps.items():
+        if v == max_sleep:
+            max_guard = k
+            print(f"max sleep!: guard={k} mins={v}")
+
+    # pp(mins)
+    max_asleep = max(mins[max_guard].values())
+    max_minute = None
+    for k, v in mins[max_guard].items():
+        if v == max_asleep:
+            max_minute = k
+
+    ans = max_guard * max_minute
+    print(f"guard={max_guard} best_min={max_minute} ans={ans}")
+    return ans
 
 
 def part2(items):

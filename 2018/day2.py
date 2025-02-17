@@ -9,10 +9,7 @@ def part1(items):
     case1 = 0
     for item in items:
         uniqs = set((item))
-        counts = {
-            uniq: item.count(uniq)
-            for uniq in uniqs
-        }
+        counts = {uniq: item.count(uniq) for uniq in uniqs}
         if 2 in counts.values():
             case1 += 1
 
@@ -20,10 +17,7 @@ def part1(items):
     case2 = 0
     for item in items:
         uniqs = set((item))
-        counts = {
-            uniq: item.count(uniq)
-            for uniq in uniqs
-        }
+        counts = {uniq: item.count(uniq) for uniq in uniqs}
         if 3 in counts.values():
             case2 += 1
 
@@ -47,7 +41,7 @@ def part2(items):
                 if diff > 1:
                     break
             if diff == 1:
-                ans = ''
+                ans = ""
                 for n1, n2 in zip(a, b):
                     if n1 != n2:
                         continue
