@@ -1,4 +1,5 @@
 {
+    "python.defaultInterpreterPath": "/Users/brian/workspace/advent-of-code/.venv/bin/python",
     "python.testing.cwd": "tests/",
     "python.testing.pytestEnabled": false,
 }

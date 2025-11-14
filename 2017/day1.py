@@ -42,5 +42,5 @@ def read_input(year: int, day: int) -> list:
 
 if __name__ == "__main__":
     items = read_input(YEAR, DAY)
-    # print(f"part1 answer: {part1(items)}")
+    print(f"part1 answer: {part1(items)}")
     print(f"part2 answer: {part2(items)}")
