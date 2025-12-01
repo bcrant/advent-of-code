@@ -5,7 +5,6 @@ YEAR, DAY = 2017, 1
 
 
 def part1(items: list):
-    pp(items)
     items.append(items[0])
     cnt = 0
     j = 0
