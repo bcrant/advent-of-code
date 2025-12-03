@@ -1,4 +1,3 @@
-from pprint import pp
 
 
 YEAR, DAY = 2025, 1
