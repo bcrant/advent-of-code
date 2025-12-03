@@ -1,6 +1,13 @@
-# Advent of Code 2022
+# Advent of Code
 
 [https://adventofcode.com/](https://adventofcode.com/)
+
+# Advent of Code 2025
+
+New rule this year: if I can not solve on my own within one hour, I look up other people's answers, then try to put in my own words so that I can understand the computer science concepts and dynamic programming techniques being employed.
+
+
+# Advent of Code 2022
 
 After reading _Clean Code_ at the beginning of this year, my focus has been on writing... clean code.
 
