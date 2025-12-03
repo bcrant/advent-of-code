@@ -40,11 +40,14 @@ def part2(items):
                 break
 
     for bank in tiny_banks:
-        combos = set(
-            int(''.join(combo))
-            for combo in list(itertools.combinations(bank, 12))
-        )
-        cnt += max(combos)
+        print(f'bank {len(bank)}: {bank}')
+        curr_max = 0
+        for combo in itertools.combinations(bank, 12):
+            next_max = int(''.join(combo))
+            if next_max > curr_max:
+                curr_max = next_max
+                print(f'next_max: {next_max}')
+        cnt += curr_max
     return cnt
 
 
