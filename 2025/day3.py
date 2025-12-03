@@ -1,5 +1,5 @@
-import itertools
 from pprint import pp
+
 
 
 YEAR, DAY = 2025, 3
@@ -10,7 +10,6 @@ def part1(items):
     cnt = 0
     banks = items
     for bank in banks:
-        print(f'bank {type(bank)}: {bank}')
         pairs = set()
         j = 0
         while j < len(bank)-1:
@@ -18,37 +17,55 @@ def part1(items):
                 pair = int(bank[j]+bank[k])
                 pairs.add(pair)
             j += 1
-        max_jolts = max(pairs)
-        print(f'pairs {type(pairs)}: {pairs}')
-        print(f'max_j {type(max_jolts)}: {max_jolts}')
         cnt += max(pairs)
     return cnt
 
 
+CACHE = {}
+
 def part2(items):
     cnt = 0
     banks = items
-    tiny_banks = []
+    CACHE = {}
     for bank in banks:
-        # Remove smallest number until only 12 items remain to reduce combinatorics
-        for i in range(1, 10):
-            _bank = ''.join([_ for _ in bank if int(_) != i])
-            if len(_bank) >= 12:
-                bank = _bank
-            else:
-                tiny_banks.append(bank)
-                break
-
-    for bank in tiny_banks:
-        print(f'bank {len(bank)}: {bank}')
-        curr_max = 0
-        for combo in itertools.combinations(bank, 12):
-            next_max = int(''.join(combo))
-            if next_max > curr_max:
-                curr_max = next_max
-                print(f'next_max: {next_max}')
-        cnt += curr_max
+        cnt += memoize(bank, 0, 0)
+        CACHE = {}
     return cnt
+
+
+def memoize(bank, i, seen):
+    """
+    Taken from Jonathan Paulson, reworded and commented to help my understanding of this technique.
+    https://github.com/jonathanpaulson/AdventOfCode/blob/master/2025/3.py
+    """
+    if i == len(bank) and seen == 12:
+        # base case, we have picked 12 digits
+        return 0
+    if i == len(bank):
+        # return invalid if we reach the end and have picked less than 12 digits
+        return -10 ** 20
+    
+    # return from cache if exists, this is how we avoid computing trillions+ of combinations
+    cache_key = (i, seen)
+    if cache_key in CACHE:
+        return CACHE[cache_key]
+    
+    # compute next digit without choosing it
+    ans = memoize(bank, i+1, seen)
+
+    # take existing sequence, adds current digit, then zero fills to the right
+    # to produce a 12 digit number. This works since it doesn't matter what numbers are 
+    # to the right of current sequence, so long as there are 12 - i. This increases
+    # the current maximum faster, allowing us to compute less combinations.
+    if seen < 12:
+        ans = max(
+            ans,
+            10 ** (11 - seen) * int(bank[i]) + memoize(bank, i+1, seen+1)
+        )
+    
+    # memoize result in return
+    CACHE[cache_key] = ans
+    return ans
 
 
 def read_input(year: int, day: int) -> list:
@@ -61,3 +78,12 @@ if __name__ == "__main__":
     items = read_input(YEAR, DAY)
     # print(f"part1 answer: {part1(items)}")
     print(f"part2 answer: {part2(items)}")
+    # cnt = 0
+    # banks = items
+    # for bank in banks:
+    #     CACHE = {}
+    #     cnt += memoize(bank, 0, 0)
+    # # 130504248624200
+    # # 168617068915447
+    # print(f'cnt {type(cnt)}: {cnt}')
+
