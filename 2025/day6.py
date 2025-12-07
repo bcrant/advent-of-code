@@ -1,67 +1,60 @@
 import math
-from pprint import pp
 
 
-IS_TEST = True
+IS_TEST = False
 YEAR, DAY = 2025, 6
 
 
 def part1(items):
+    items = [str(i).split() for i in items]
     cnt = 0
     for x in range(0, len(items[0])):
-        col_cnt = 0
-        col_op = items[-1][x]
+        op = items[-1][x]
         cols = [
             int(items[y][x])
             for y in range(0, len(items[0:-1]))
         ]
-        # print(f'cols {type(cols)}: {cols}')
-        # print(f'col_op {type(col_op)}: {col_op}')
-        if col_op == "*":
-            col_cnt = math.prod(cols)
-        elif col_op == "+":
-            col_cnt = sum(cols)
-        # print(f'col_cnt {type(col_cnt)}: {col_cnt}')
-        cnt += col_cnt
+        cnt += math.prod(cols) if op == "*" else sum(cols)
     return cnt
 
 
 def part2(items):
-    cnt = 0
+    """Instead of attempting to rjust() or ljust() based on least significant
+    or most significant number, I simply split on columns containing only
+    whitespace, the definied delimiter, and used ordinal positions to group."""
+    split_on = []
     for x in range(0, len(items[0])):
-        col_cnt = 0
-        col_op = items[-1][x]
-        cols = [
-            int(items[y][x])
-            for y in range(0, len(items[0:-1]))
-        ]
-        print(f'cols {type(cols)}: {cols}')
+        vals = set(items[y][x] for y in range(0, len(items)))
+        if vals == set(' '):
+            split_on.append(x)
+    split_on.append(len(items[0]))
+    
+    cols = []
+    last = 0
+    for x in split_on:
+        col = [items[y][last:x] for y in range(0, len(items))]
+        cols.append(col)
+        last = x+1
 
-        max_digits = len(str(max(cols)))
-        cols = [
-            str(col).ljust(max_digits, "0")
-            for col in cols
-        ]
-        print(f'cols {type(cols)}: {cols}')
+    cnt = 0
+    for col in cols:
+        op = str(col[-1]).strip()
+        nums = []
+        for x in range(0, len(col[0])):
+            vals = [
+                col[y][x]
+                for y in range(0, len(col[0:-1]))
+                if col[y][x] != " "
+            ]
+            nums.append(int("".join(vals)))
 
-        cols = [
-            col[xx]
-            for xx in range(0, len(cols[0]))
-        ]
-
-        for x in range(0, max_digits):
-            if col_op == "*":
-                col_cnt = math.prod(cols)
-            elif col_op == "+":
-                col_cnt = sum(cols)
-            # print(f'col_cnt {type(col_cnt)}: {col_cnt}')
-            cnt += col_cnt
-
+        cnt += math.prod(nums) if op == "*" else sum(nums)
+    return cnt
 
 def read_input(year: int, day: int) -> list:
     file_suffix = "input_test" if IS_TEST else "input" 
     with open(f"{year}/data/day{day}_{file_suffix}.txt", "r") as f:
-        items = [i.split() for i in f.read().splitlines()]
+        items = f.read().splitlines()
         return items
 
 
