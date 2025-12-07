@@ -7,7 +7,7 @@ YEAR, DAY = 2025, 4
 def part1(items):
     pp(items)
     cnt = 0
-    xms = []
+    _items = []
     for y in range(0, len(items)):
         row = []
         for x in range(0, len(items[0])):
@@ -23,14 +23,37 @@ def part1(items):
                 row.append("X")
             else:
                 row.append(".")
-        xms.append("".join(row))
-    pp(xms)
+        _items.append("".join(row))
+    pp(_items)
     return cnt
 
 
-def part2(items):
+def part2(items, cnt=0, last_cnt=0):
     pp(items)
-    return
+
+    # base case
+    if cnt > 0 and cnt == last_cnt:
+        return cnt
+
+    _cnt = cnt
+    _items = []
+    for y in range(0, len(items)):
+        row = []
+        for x in range(0, len(items[0])):
+            curr_pos = (x, y)
+            curr_val = items[y][x]
+            if curr_val != "@":
+                row.append(curr_val)
+                continue
+            adjacent = get_adjacent_values(curr_pos, items)
+            # print(f'curr_pos={curr_pos} curr_val={curr_val} adj_cnt={adjacent.count("@")} adj={adjacent}')
+            if curr_val == "@" and adjacent.count("@") < 4:
+                _cnt += 1
+                row.append("x")
+            else:
+                row.append(curr_val)
+        _items.append("".join(row))
+    return part2(_items, _cnt, cnt)
 
 
 def get_adjacent_values(curr_pos: tuple[int, int], data: list[str], diagonals: bool = True):
@@ -88,8 +111,8 @@ def move(point: tuple[int, int], direction: tuple[int, int]) -> tuple[int, int]:
 
 
 def read_input(year: int, day: int) -> list:
-    sfx = "input_test" if IS_TEST else "input" 
-    with open(f"{year}/data/day{day}_{sfx}.txt", "r") as f:
+    file_suffix = "input_test" if IS_TEST else "input" 
+    with open(f"{year}/data/day{day}_{file_suffix}.txt", "r") as f:
         items = f.read().splitlines()
         return items
 
@@ -97,4 +120,4 @@ def read_input(year: int, day: int) -> list:
 if __name__ == "__main__":
     items = read_input(YEAR, DAY)
     print(f"part1 answer: {part1(items)}")
-    # print(f"part2 answer: {part2(items)}")
+    print(f"part2 answer: {part2(items)}")
