@@ -2,6 +2,10 @@
 
 [https://adventofcode.com/](https://adventofcode.com/)
 
+```
+export DAY=N && cp 2025/tmpl.py "2025/day${DAY}.py" && touch "2025/data/day${DAY}_input_test.txt" "2025/data/day${DAY}_input.txt"
+```
+
 # Advent of Code 2025
 
 New rule this year: if I can not solve on my own within one hour, I look up other people's answers, then try to put in my own words so that I can understand the computer science concepts and dynamic programming techniques being employed.
