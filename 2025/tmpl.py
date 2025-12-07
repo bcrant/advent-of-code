@@ -1,6 +1,7 @@
 from pprint import pp
 
 
+IS_TEST = False
 YEAR, DAY = 2025, 1
 
 
@@ -15,7 +16,8 @@ def part2(items):
 
 
 def read_input(year: int, day: int) -> list:
-    with open(f"{year}/data/day{day}_input.txt", "r") as f:
+    file_suffix = "input_test" if IS_TEST else "input" 
+    with open(f"{year}/data/day{day}_{file_suffix}.txt", "r") as f:
         items = f.read().splitlines()
         return items
 
