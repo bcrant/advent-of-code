@@ -8,13 +8,16 @@ YEAR, DAY = 2025, 5
 def part1(items):
     # pp(items)
     fresh_id_ranges, inventory_ids = str(items).strip().split('\n\n')
-    fresh_id_ranges = [i.split("-") for i in fresh_id_ranges.split('\n')]
-    fresh_ids = set()
-    for x, y in fresh_id_ranges:
-        for i in range(int(x), int(y)+1):
-            fresh_ids.add(str(i))    
-    inventory_ids = set(inventory_ids.split('\n'))
-    return len(inventory_ids.intersection(fresh_ids))
+    fresh_id_ranges = {int(i.split("-")[0]): list(map(int, i.split("-"))) for i in fresh_id_ranges.split('\n')}
+    inventory_ids = {int(i): None for i in inventory_ids.split('\n')}
+    cnt = 0
+    for iid in inventory_ids.keys():
+        seen = set()
+        for x, y in fresh_id_ranges.values():
+            if iid not in seen and iid >= x and iid <= y:
+                seen.add(iid)
+                cnt += 1
+    return cnt
 
 
 def part2(items):
@@ -32,4 +35,6 @@ def read_input(year: int, day: int) -> list:
 if __name__ == "__main__":
     items = read_input(YEAR, DAY)
     print(f"part1 answer: {part1(items)}")
+    # 660 too low
+    # 774 too high
     # print(f"part2 answer: {part2(items)}")
